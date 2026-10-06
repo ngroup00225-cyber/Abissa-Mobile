@@ -1,0 +1,39 @@
+workflows:
+  ios-abissa:
+    name: ABISSA MOBILE iOS
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: ci.abissa
+
+      vars:
+        XCODE_PROJECT: "ios/AbissaMobile.xcodeproj"
+        XCODE_SCHEME: "AbissaMobile"
+
+      xcode: latest
+
+    scripts:
+      - name: Vérifier le projet
+        script: |
+          echo "Projet ABISSA MOBILE"
+          ls -la
+          ls -la ios
+
+      - name: Appliquer les profils de signature
+        script: |
+          xcode-project use-profiles
+
+      - name: Générer l'IPA
+        script: |
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
