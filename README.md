@@ -1,12 +1,28 @@
-# ABISSA MOBILE 2.1.1 — Android, iOS et communauté
+# ABISSA MOBILE 2.1.2 — build 24, préparation des stores
+
+La barre native supplémentaire « ACCUEIL, SCANNER, FAVORIS, PLUS » est supprimée. Scanner, favoris, notifications, téléchargements, préférences et À propos sont regroupés dans **Profil → Services de l’application**. La navigation principale existante reste disponible.
+
+APK : `Abissa-Mobile-v2.1.2-release.apk`, signé avec le certificat historique pour les mises à jour directes. Sources : `app/`, `ios/`, `deploy-cpanel/` et `qa-tools/`. Lire **RAPPORT_PUBLICATION_212.md** pour les preuves et les validations encore ouvertes. La publication complète reste en cours : AAB signé bloqué par le mot de passe de la clé d’envoi existante ; compilation/signature iOS à effectuer dans Codemagic. Le certificat historique porte l’identité Android Debug : l’acceptation Google Play doit être résolue avant publication.
+
+Importer les fichiers **extraits** du ZIP à la racine de GitHub selon `GITHUB_CODEMAGIC_IMPORT_212.md`. Ne pas déposer seulement le ZIP dans le dépôt. Aucun déploiement automatique ou publication de store n’est activé.
+
+Compilation locale Android : `python qa-tools/build-android-212.py` puis `python qa-tools/build-playstore-212.py`, avec SDK/JDK et clés privées conservés séparément. Regroupement partagé : `python qa-tools/bundle-mobile.py`. Sur Mac, ouvrir `ios/AbissaMobile.xcodeproj` ou utiliser les workflows `codemagic.yaml`. Tests actuels : `qa-tools/validate-212.py`, `qa-tools/test-native-212-ui.cjs`, `qa-tools/test-apk-212-package.py` et `qa-tools/test-android-runtime-212.py`.
+
+Les sections suivantes décrivent les livraisons précédentes et ne certifient pas la publication 2.1.2.
+
+# Historique — ABISSA MOBILE 2.1.1
 
 Sources Android : Java/WebView, com.abissa.mobile, code 22, API 36. Sources iOS : UIKit/WKWebView, Bundle ID proposé ci.abissa, version 2.1.1/build22, iOS 15 minimum. Interface HTML/JS et backend PHP JSON partagés. Le projet reçu n’est pas Flutter.
 
 Accueil : commandes de slider symétriques, 20 icônes Microsoft Fluent locales, libellés centrés et petites flèches de menu retirées. Blog et Votre avis compte sont harmonisés. Laissez-passer : profils de couleur, zones, points affectés aux agents, QR signés, refus serveur, historique et réémission. Lire GUIDE_LAISSEZ_PASSER_211.md avant mise en service.
 
-Les commentaires sont publiés immédiatement ; les articles Blog utilisateurs restent privés avant approbation. Modération, signalements, blocage/suspension, avis et réponses, slider configurable, templates de badges, éditeur 95 × 135 mm, quantités et PDF sont intégrés au code existant.
+Les commentaires sont publiés immédiatement ; les articles Blog utilisateurs restent privés avant approbation. Modération, signalements, blocage/suspension, avis et réponses, slider configurable, modèles habituels de badges 95 × 135 mm, quantités et PDF sont intégrés au code existant.
 
 Lire [la documentation iOS](DOCUMENTATION_IOS/README.md), [l’architecture](DOCUMENTATION_IOS/00_ARCHITECTURE_ET_ETAT.md), [les migrations/API/déploiement](DOCUMENTATION_IOS/MIGRATIONS_ET_API.md), [les métadonnées App Store](APP_STORE_METADATA.md) et [le rapport de livraison](RAPPORT_LIVRAISON_211.md).
+
+## Réaménagements du back-office — 5 octobre 2026
+
+Menu en trois catégories, laissez-passer personnalisable avec aperçu immédiat et QR signé. Impression rétablie au format fixe 9,5 × 13,5 cm, sans Éditer ni boutons +/− : saisir la quantité dans la case. Disposition A4 portrait systématique : quatre badges de 9,5 × 13,5 cm par page (2 × 2), espacés de 8 mm pour la découpe, avec copies identiques dans le PDF. La correction retire une seule fois les anciens laissez-passer à son installation et révoque leurs QR, après sauvegarde. Les prochains dossiers restent conservés. Sources : deploy-cpanel/. Rapports : RAPPORT_REAMENAGEMENTS_2026-10-05.md (première livraison) et RAPPORT_CORRECTIONS_IMPRESSION_2026-10-05.md (correction actuelle). Hébergement manuel.
 
 ## Compilation et vérification
 

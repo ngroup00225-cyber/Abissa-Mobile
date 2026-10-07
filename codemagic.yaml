@@ -1,39 +1,45 @@
+# Manual builds only. No store upload, TestFlight distribution, publishing, or generated signing identity.
 workflows:
-  ios-abissa:
-    name: ABISSA MOBILE iOS
-    max_build_duration: 120
+  ios-212-validation:
+    name: ABISSA 2.1.2 - iOS simulator validation
     instance_type: mac_mini_m2
-
+    max_build_duration: 60
     environment:
+      xcode: latest
+    scripts:
+      - name: Bundle public interface
+        script: python3 qa-tools/bundle-mobile.py
+      - name: Validate property lists
+        script: |
+          plutil -lint ios/AbissaMobile/Info.plist ios/AbissaMobile/PrivacyInfo.xcprivacy ios/AbissaMobile/AbissaMobile.entitlements
+      - name: Build simulator
+        script: |
+          set -o pipefail
+          xcodebuild -project ios/AbissaMobile.xcodeproj -scheme AbissaMobile -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build | tee ios/build-validation.log
+      - name: Start small iPhone, recent iPhone and iPad
+        script: python3 qa-tools/test-ios-simulator-212.py
+    artifacts:
+      - ios/build-validation.log
+      - ios/build/Build/Products/Debug-iphonesimulator/*.app
+      - ios/simulator-qa-212/**
+  ios-212-archive:
+    name: ABISSA 2.1.2 - signed archive only
+    instance_type: mac_mini_m2
+    max_build_duration: 90
+    environment:
+      xcode: latest
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ci.abissa
-
-      vars:
-        XCODE_PROJECT: "ios/AbissaMobile.xcodeproj"
-        XCODE_SCHEME: "AbissaMobile"
-
-      xcode: latest
-
     scripts:
-      - name: Vérifier le projet
+      - name: Bundle public interface
+        script: python3 qa-tools/bundle-mobile.py
+      - name: Apply existing signing profiles
+        script: xcode-project use-profiles
+      - name: Build IPA without publishing
         script: |
-          echo "Projet ABISSA MOBILE"
-          ls -la
-          ls -la ios
-
-      - name: Appliquer les profils de signature
-        script: |
-          xcode-project use-profiles
-
-      - name: Générer l'IPA
-        script: |
-          xcode-project build-ipa \
-            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
-            --scheme "$XCODE_SCHEME"
-
+          xcode-project build-ipa --project ios/AbissaMobile.xcodeproj --scheme AbissaMobile
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      - ~/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
