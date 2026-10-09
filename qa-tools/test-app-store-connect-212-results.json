@@ -1,0 +1,12 @@
+{
+  "testsRun": 6,
+  "errors": 0,
+  "failures": 0,
+  "yamlSchema": "https://codemagic.io/codemagic-schema.json",
+  "marketingVersion": "2.1.2",
+  "minimumBuild": 25,
+  "androidChanged": false,
+  "realIpaVerified": false,
+  "appleUploadConfirmed": false,
+  "remoteCommitConfirmed": false
+}

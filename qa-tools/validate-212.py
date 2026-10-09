@@ -19,7 +19,7 @@ assert info['NSAppTransportSecurity']['NSAllowsArbitraryLoads'] is False
 ent=plistlib.loads((root/'ios/AbissaMobile/AbissaMobile.entitlements').read_bytes())
 assert ent['aps-environment']=='$(APNS_ENVIRONMENT)' and 'applinks:abissamobile.com' in ent['com.apple.developer.associated-domains']
 for p in ['ios/AbissaMobile/LaunchScreen.storyboard','ios/AbissaMobile.xcodeproj/xcshareddata/xcschemes/AbissaMobile.xcscheme','app/src/main/AndroidManifest.xml']:ET.parse(root/p)
-config=(root/'ios/Config/Shared.xcconfig').read_text();assert 'ci.abissa' in config and 'CURRENT_PROJECT_VERSION = 24' in config and 'IPHONEOS_DEPLOYMENT_TARGET = 15.0' in config
+config=(root/'ios/Config/Shared.xcconfig').read_text();assert 'ci.abissa' in config and 'CURRENT_PROJECT_VERSION = 25' in config and 'IPHONEOS_DEPLOYMENT_TARGET = 15.0' in config
 project=(root/'ios/AbissaMobile.xcodeproj/project.pbxproj').read_text();assert 'NativeCompanion.swift' in project and '212000000000000000000002' in project
 assert not list((root/'ios/AbissaMobile/Web').rglob('*.php'))
 checks.append('iOS plists, privacy, capabilities, version/build, Swift membership, launch screen and shared scheme validated; Xcode build pending')

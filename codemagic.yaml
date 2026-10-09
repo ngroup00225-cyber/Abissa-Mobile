@@ -1,4 +1,4 @@
-# Manual builds only. No store upload, TestFlight distribution, publishing, or generated signing identity.
+# Manual workflow start. Archive uploads to App Store Connect; beta/public review stays manual.
 workflows:
   ios-212-validation:
     name: ABISSA 2.1.2 - iOS simulator validation
@@ -23,9 +23,11 @@ workflows:
       - ios/build/Build/Products/Debug-iphonesimulator/*.app
       - ios/simulator-qa-212/**
   ios-212-archive:
-    name: ABISSA 2.1.2 - signed archive only
+    name: ABISSA 2.1.2 - signed archive and App Store Connect upload
     instance_type: mac_mini_m2
     max_build_duration: 90
+    integrations:
+      app_store_connect: Abissa-Mobile-Apple
     environment:
       xcode: latest
       ios_signing:
@@ -36,10 +38,20 @@ workflows:
         script: python3 qa-tools/bundle-mobile.py
       - name: Apply existing signing profiles
         script: xcode-project use-profiles
-      - name: Build IPA without publishing
+      - name: Select next iOS build from Apple history
+        script: python3 ios/scripts/prepare-app-store-build.py
+      - name: Build IPA for App Store Connect
         script: |
           xcode-project build-ipa --project ios/AbissaMobile.xcodeproj --scheme AbissaMobile
+      - name: Verify IPA identity and build before upload
+        script: python3 ios/scripts/verify-app-store-ipa.py
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - ~/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      - ios/ci-build-metadata.json
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false
+        submit_to_app_store: false
