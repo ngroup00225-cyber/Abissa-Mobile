@@ -1,0 +1,282 @@
+{
+  "originalHtmlBytes": 19105742,
+  "htmlBytes": 2700935,
+  "assets": {
+    "3f8c091bc6b5cf8d4eee6d8b59e9e09990955610826f494ca1c4fb5baf2f5c31.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2374,
+      "sha256": "3f8c091bc6b5cf8d4eee6d8b59e9e09990955610826f494ca1c4fb5baf2f5c31",
+      "url": "https://abissamobile.com/appli/bundled-media/3f8c091bc6b5cf8d4eee6d8b59e9e09990955610826f494ca1c4fb5baf2f5c31.svg"
+    },
+    "4654d944a7d4710f36658a72577bbf4b5aa48912cf58dd2e54ccd9c146a576f1.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 3599,
+      "sha256": "4654d944a7d4710f36658a72577bbf4b5aa48912cf58dd2e54ccd9c146a576f1",
+      "url": "https://abissamobile.com/appli/bundled-media/4654d944a7d4710f36658a72577bbf4b5aa48912cf58dd2e54ccd9c146a576f1.svg"
+    },
+    "a0f5e47363db1434001dbdebba42c73617d2e4089759ed0db55a7bf839f79446.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2016,
+      "sha256": "a0f5e47363db1434001dbdebba42c73617d2e4089759ed0db55a7bf839f79446",
+      "url": "https://abissamobile.com/appli/bundled-media/a0f5e47363db1434001dbdebba42c73617d2e4089759ed0db55a7bf839f79446.svg"
+    },
+    "e0a15cfcfed3dc25d29287a9ffc5f3536c2baed243264e005dc13c0a45dc8428.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 3005,
+      "sha256": "e0a15cfcfed3dc25d29287a9ffc5f3536c2baed243264e005dc13c0a45dc8428",
+      "url": "https://abissamobile.com/appli/bundled-media/e0a15cfcfed3dc25d29287a9ffc5f3536c2baed243264e005dc13c0a45dc8428.svg"
+    },
+    "67e429323e08f81c65791e996458388749e93d1f18a813e76ebaca1280ede126.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1550,
+      "sha256": "67e429323e08f81c65791e996458388749e93d1f18a813e76ebaca1280ede126",
+      "url": "https://abissamobile.com/appli/bundled-media/67e429323e08f81c65791e996458388749e93d1f18a813e76ebaca1280ede126.svg"
+    },
+    "581190a76d64a1b8ed82d2bcb292c023131c140227529f11f147ef71e03734e2.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 6352,
+      "sha256": "581190a76d64a1b8ed82d2bcb292c023131c140227529f11f147ef71e03734e2",
+      "url": "https://abissamobile.com/appli/bundled-media/581190a76d64a1b8ed82d2bcb292c023131c140227529f11f147ef71e03734e2.svg"
+    },
+    "15635c8f9aa7d87c37653a9356b2992dac178e0c306d719020795b9a79e3c939.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2401,
+      "sha256": "15635c8f9aa7d87c37653a9356b2992dac178e0c306d719020795b9a79e3c939",
+      "url": "https://abissamobile.com/appli/bundled-media/15635c8f9aa7d87c37653a9356b2992dac178e0c306d719020795b9a79e3c939.svg"
+    },
+    "10cc1ed486419bf7e405fc53924a2b186e55dca4f45fd78f7e0433ab3fbd0d44.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1200,
+      "sha256": "10cc1ed486419bf7e405fc53924a2b186e55dca4f45fd78f7e0433ab3fbd0d44",
+      "url": "https://abissamobile.com/appli/bundled-media/10cc1ed486419bf7e405fc53924a2b186e55dca4f45fd78f7e0433ab3fbd0d44.svg"
+    },
+    "552b87bb882e3a66aa28fdf19ea28631dcdd34253ab01ac56191ee75941c0b96.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1446,
+      "sha256": "552b87bb882e3a66aa28fdf19ea28631dcdd34253ab01ac56191ee75941c0b96",
+      "url": "https://abissamobile.com/appli/bundled-media/552b87bb882e3a66aa28fdf19ea28631dcdd34253ab01ac56191ee75941c0b96.svg"
+    },
+    "445f49c9d4cb41830a23bed71beb2f3a10e2a8e7ce1f8efda9b901033143ff2c.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2371,
+      "sha256": "445f49c9d4cb41830a23bed71beb2f3a10e2a8e7ce1f8efda9b901033143ff2c",
+      "url": "https://abissamobile.com/appli/bundled-media/445f49c9d4cb41830a23bed71beb2f3a10e2a8e7ce1f8efda9b901033143ff2c.svg"
+    },
+    "efe9e44780896b54e05537f9910f63961a0101e9aa5049b01adad8a50fd9b6b4.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1443,
+      "sha256": "efe9e44780896b54e05537f9910f63961a0101e9aa5049b01adad8a50fd9b6b4",
+      "url": "https://abissamobile.com/appli/bundled-media/efe9e44780896b54e05537f9910f63961a0101e9aa5049b01adad8a50fd9b6b4.svg"
+    },
+    "5c3932b6942e0f5d12f1e04c57ebb0668092aa95a274441b046f09184690be5a.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2000,
+      "sha256": "5c3932b6942e0f5d12f1e04c57ebb0668092aa95a274441b046f09184690be5a",
+      "url": "https://abissamobile.com/appli/bundled-media/5c3932b6942e0f5d12f1e04c57ebb0668092aa95a274441b046f09184690be5a.svg"
+    },
+    "f05670d69a85aae47705b9eebe3ac60e33591b1d01cfd454d3f0462a76698aab.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1153,
+      "sha256": "f05670d69a85aae47705b9eebe3ac60e33591b1d01cfd454d3f0462a76698aab",
+      "url": "https://abissamobile.com/appli/bundled-media/f05670d69a85aae47705b9eebe3ac60e33591b1d01cfd454d3f0462a76698aab.svg"
+    },
+    "3d655edd351850463bc14fa72c6fc62a349eb23e2ad0f95ed7d6a3d819d9ad7b.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1834,
+      "sha256": "3d655edd351850463bc14fa72c6fc62a349eb23e2ad0f95ed7d6a3d819d9ad7b",
+      "url": "https://abissamobile.com/appli/bundled-media/3d655edd351850463bc14fa72c6fc62a349eb23e2ad0f95ed7d6a3d819d9ad7b.svg"
+    },
+    "85af9f7ac88e2777abb9a79882d1f32c6bc5d15fa806ba47c3a4448bd608be8f.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2711,
+      "sha256": "85af9f7ac88e2777abb9a79882d1f32c6bc5d15fa806ba47c3a4448bd608be8f",
+      "url": "https://abissamobile.com/appli/bundled-media/85af9f7ac88e2777abb9a79882d1f32c6bc5d15fa806ba47c3a4448bd608be8f.svg"
+    },
+    "f540429b6e5f68913de8b8e741b98dac3d896e9f1acab58bd7729ddf3ae4f8e9.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 5622,
+      "sha256": "f540429b6e5f68913de8b8e741b98dac3d896e9f1acab58bd7729ddf3ae4f8e9",
+      "url": "https://abissamobile.com/appli/bundled-media/f540429b6e5f68913de8b8e741b98dac3d896e9f1acab58bd7729ddf3ae4f8e9.svg"
+    },
+    "9ef1b7f1038adf6f1b8f4267283edf7aac0d3eb4cc80f1da0242cec5c77504ec.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2581,
+      "sha256": "9ef1b7f1038adf6f1b8f4267283edf7aac0d3eb4cc80f1da0242cec5c77504ec",
+      "url": "https://abissamobile.com/appli/bundled-media/9ef1b7f1038adf6f1b8f4267283edf7aac0d3eb4cc80f1da0242cec5c77504ec.svg"
+    },
+    "b149fe5c8b4368d77d18c37b09f0549f7a938a7606557a546db515c4cff806b5.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 1509,
+      "sha256": "b149fe5c8b4368d77d18c37b09f0549f7a938a7606557a546db515c4cff806b5",
+      "url": "https://abissamobile.com/appli/bundled-media/b149fe5c8b4368d77d18c37b09f0549f7a938a7606557a546db515c4cff806b5.svg"
+    },
+    "b726489c1c3e0438b0d9f2d85495643c1e1d8dbaf44613290baf3efce115fd34.svg": {
+      "mime": "image/svg+xml",
+      "bytes": 2589,
+      "sha256": "b726489c1c3e0438b0d9f2d85495643c1e1d8dbaf44613290baf3efce115fd34",
+      "url": "https://abissamobile.com/appli/bundled-media/b726489c1c3e0438b0d9f2d85495643c1e1d8dbaf44613290baf3efce115fd34.svg"
+    },
+    "b79d595770ba7b494d69aebec213368861fd41f670b46397f06abcf41b7fc245.png": {
+      "mime": "image/png",
+      "bytes": 2627029,
+      "sha256": "b79d595770ba7b494d69aebec213368861fd41f670b46397f06abcf41b7fc245",
+      "url": "https://abissamobile.com/appli/bundled-media/b79d595770ba7b494d69aebec213368861fd41f670b46397f06abcf41b7fc245.png"
+    },
+    "7ea90bbc7c505b98dd7d3a089a6fa32067e353150192951cedb05e26820936cf.woff2": {
+      "mime": "font/woff2",
+      "bytes": 176812,
+      "sha256": "7ea90bbc7c505b98dd7d3a089a6fa32067e353150192951cedb05e26820936cf",
+      "url": "https://abissamobile.com/appli/bundled-media/7ea90bbc7c505b98dd7d3a089a6fa32067e353150192951cedb05e26820936cf.woff2"
+    },
+    "dfa71fcc6fe3131442adc281257702cac87b3ad8c6ea186dd999e6b486c1e9dc.wav": {
+      "mime": "audio/wav",
+      "bytes": 37088,
+      "sha256": "dfa71fcc6fe3131442adc281257702cac87b3ad8c6ea186dd999e6b486c1e9dc",
+      "url": "https://abissamobile.com/appli/bundled-media/dfa71fcc6fe3131442adc281257702cac87b3ad8c6ea186dd999e6b486c1e9dc.wav"
+    },
+    "0e4856198f3c1f14f160d32106410936a1f80d6306f236c6cf152df6318a8ef2.wav": {
+      "mime": "audio/wav",
+      "bytes": 54728,
+      "sha256": "0e4856198f3c1f14f160d32106410936a1f80d6306f236c6cf152df6318a8ef2",
+      "url": "https://abissamobile.com/appli/bundled-media/0e4856198f3c1f14f160d32106410936a1f80d6306f236c6cf152df6318a8ef2.wav"
+    },
+    "c643bac142bc78531db62ffb687d88e5501338e59a3741e74d39d28d0badebde.wav": {
+      "mime": "audio/wav",
+      "bytes": 49436,
+      "sha256": "c643bac142bc78531db62ffb687d88e5501338e59a3741e74d39d28d0badebde",
+      "url": "https://abissamobile.com/appli/bundled-media/c643bac142bc78531db62ffb687d88e5501338e59a3741e74d39d28d0badebde.wav"
+    },
+    "149c7da7bcd15eac1413769cd5a23f709ccf9a8c40dd7ed935ed4d5cf0ab2ccc.wav": {
+      "mime": "audio/wav",
+      "bytes": 31796,
+      "sha256": "149c7da7bcd15eac1413769cd5a23f709ccf9a8c40dd7ed935ed4d5cf0ab2ccc",
+      "url": "https://abissamobile.com/appli/bundled-media/149c7da7bcd15eac1413769cd5a23f709ccf9a8c40dd7ed935ed4d5cf0ab2ccc.wav"
+    },
+    "a2b9cd0fe3c1c02eea90773e975c305d6d6f0ff2e29c3d24e8d143b2bd6915c7.wav": {
+      "mime": "audio/wav",
+      "bytes": 37088,
+      "sha256": "a2b9cd0fe3c1c02eea90773e975c305d6d6f0ff2e29c3d24e8d143b2bd6915c7",
+      "url": "https://abissamobile.com/appli/bundled-media/a2b9cd0fe3c1c02eea90773e975c305d6d6f0ff2e29c3d24e8d143b2bd6915c7.wav"
+    },
+    "859926c182f38b4fb4bca380f28242ca0303c7ecc21d0f36c78b6ea40eb85a98.png": {
+      "mime": "image/png",
+      "bytes": 1831310,
+      "sha256": "859926c182f38b4fb4bca380f28242ca0303c7ecc21d0f36c78b6ea40eb85a98",
+      "url": "https://abissamobile.com/appli/bundled-media/859926c182f38b4fb4bca380f28242ca0303c7ecc21d0f36c78b6ea40eb85a98.png"
+    },
+    "6322a715fec8934598bad8cf327b72a750a808c1e711e7cfb90364a819977658.png": {
+      "mime": "image/png",
+      "bytes": 2813270,
+      "sha256": "6322a715fec8934598bad8cf327b72a750a808c1e711e7cfb90364a819977658",
+      "url": "https://abissamobile.com/appli/bundled-media/6322a715fec8934598bad8cf327b72a750a808c1e711e7cfb90364a819977658.png"
+    },
+    "ff24311ede5418a0889cf1e484702eb26171a85386719b1e5d95b75fd587ff5c.png": {
+      "mime": "image/png",
+      "bytes": 1759827,
+      "sha256": "ff24311ede5418a0889cf1e484702eb26171a85386719b1e5d95b75fd587ff5c",
+      "url": "https://abissamobile.com/appli/bundled-media/ff24311ede5418a0889cf1e484702eb26171a85386719b1e5d95b75fd587ff5c.png"
+    },
+    "5bbe2866d30123bfa62e21c20a1e3856bb4faa99e7f68e37e6f777c8c12801e6.png": {
+      "mime": "image/png",
+      "bytes": 1428981,
+      "sha256": "5bbe2866d30123bfa62e21c20a1e3856bb4faa99e7f68e37e6f777c8c12801e6",
+      "url": "https://abissamobile.com/appli/bundled-media/5bbe2866d30123bfa62e21c20a1e3856bb4faa99e7f68e37e6f777c8c12801e6.png"
+    },
+    "f39b3d2c5450207b65aad72ce99a71cb10331d3332a0958ba527df833322b6d3.png": {
+      "mime": "image/png",
+      "bytes": 1636802,
+      "sha256": "f39b3d2c5450207b65aad72ce99a71cb10331d3332a0958ba527df833322b6d3",
+      "url": "https://abissamobile.com/appli/bundled-media/f39b3d2c5450207b65aad72ce99a71cb10331d3332a0958ba527df833322b6d3.png"
+    },
+    "66f2beb6618e473569994f9d6cd61476ea5a58aff1b942ec07b91a1764a08c0c.webp": {
+      "mime": "image/webp",
+      "bytes": 41108,
+      "sha256": "66f2beb6618e473569994f9d6cd61476ea5a58aff1b942ec07b91a1764a08c0c",
+      "url": "https://abissamobile.com/appli/bundled-media/66f2beb6618e473569994f9d6cd61476ea5a58aff1b942ec07b91a1764a08c0c.webp"
+    },
+    "a946c9f7329ef36580397c8a543e7b53361746342325ac0246653e5f1ebe00e3.webp": {
+      "mime": "image/webp",
+      "bytes": 56492,
+      "sha256": "a946c9f7329ef36580397c8a543e7b53361746342325ac0246653e5f1ebe00e3",
+      "url": "https://abissamobile.com/appli/bundled-media/a946c9f7329ef36580397c8a543e7b53361746342325ac0246653e5f1ebe00e3.webp"
+    },
+    "38b7e73558b0629b72a04926351014926a1c57a70430186e88543e6f6041680b.webp": {
+      "mime": "image/webp",
+      "bytes": 41762,
+      "sha256": "38b7e73558b0629b72a04926351014926a1c57a70430186e88543e6f6041680b",
+      "url": "https://abissamobile.com/appli/bundled-media/38b7e73558b0629b72a04926351014926a1c57a70430186e88543e6f6041680b.webp"
+    },
+    "57f049c93bf088dcfefd270977ae105768ed51b67e8e45504d9e5b1b4d6a3449.webp": {
+      "mime": "image/webp",
+      "bytes": 44876,
+      "sha256": "57f049c93bf088dcfefd270977ae105768ed51b67e8e45504d9e5b1b4d6a3449",
+      "url": "https://abissamobile.com/appli/bundled-media/57f049c93bf088dcfefd270977ae105768ed51b67e8e45504d9e5b1b4d6a3449.webp"
+    },
+    "68c5d9f5f071049d7c10f857c85409a7cfe799ed79ff2ff5d63403248d502301.webp": {
+      "mime": "image/webp",
+      "bytes": 45886,
+      "sha256": "68c5d9f5f071049d7c10f857c85409a7cfe799ed79ff2ff5d63403248d502301",
+      "url": "https://abissamobile.com/appli/bundled-media/68c5d9f5f071049d7c10f857c85409a7cfe799ed79ff2ff5d63403248d502301.webp"
+    },
+    "77e7f39331b41712ff12b065b91c332b464e26bf6bc69ac0d2403ba1e7440985.webp": {
+      "mime": "image/webp",
+      "bytes": 45612,
+      "sha256": "77e7f39331b41712ff12b065b91c332b464e26bf6bc69ac0d2403ba1e7440985",
+      "url": "https://abissamobile.com/appli/bundled-media/77e7f39331b41712ff12b065b91c332b464e26bf6bc69ac0d2403ba1e7440985.webp"
+    },
+    "9b03a517648c15d8273be6be4aa51bd726b28fbb833bea9d032135c78c42f811.webp": {
+      "mime": "image/webp",
+      "bytes": 43242,
+      "sha256": "9b03a517648c15d8273be6be4aa51bd726b28fbb833bea9d032135c78c42f811",
+      "url": "https://abissamobile.com/appli/bundled-media/9b03a517648c15d8273be6be4aa51bd726b28fbb833bea9d032135c78c42f811.webp"
+    },
+    "17329a70f77c4f5eae76de5bb5685516d18acb39b29a9215a96744f6af74192d.webp": {
+      "mime": "image/webp",
+      "bytes": 29678,
+      "sha256": "17329a70f77c4f5eae76de5bb5685516d18acb39b29a9215a96744f6af74192d",
+      "url": "https://abissamobile.com/appli/bundled-media/17329a70f77c4f5eae76de5bb5685516d18acb39b29a9215a96744f6af74192d.webp"
+    },
+    "1cf0f6affdaa9802ea70ac5e9a19481a14f4eb7a2587d121631fc03a8d737363.webp": {
+      "mime": "image/webp",
+      "bytes": 41958,
+      "sha256": "1cf0f6affdaa9802ea70ac5e9a19481a14f4eb7a2587d121631fc03a8d737363",
+      "url": "https://abissamobile.com/appli/bundled-media/1cf0f6affdaa9802ea70ac5e9a19481a14f4eb7a2587d121631fc03a8d737363.webp"
+    },
+    "f0102f7152d39888f96f79eff0f0334cdf80faa95d44ee0ec03de37c73a2d260.webp": {
+      "mime": "image/webp",
+      "bytes": 43156,
+      "sha256": "f0102f7152d39888f96f79eff0f0334cdf80faa95d44ee0ec03de37c73a2d260",
+      "url": "https://abissamobile.com/appli/bundled-media/f0102f7152d39888f96f79eff0f0334cdf80faa95d44ee0ec03de37c73a2d260.webp"
+    },
+    "2ab4e5262ac58eaa19df86a58c07dfa8775939df70c56249992fc26a9e2cac61.webp": {
+      "mime": "image/webp",
+      "bytes": 42058,
+      "sha256": "2ab4e5262ac58eaa19df86a58c07dfa8775939df70c56249992fc26a9e2cac61",
+      "url": "https://abissamobile.com/appli/bundled-media/2ab4e5262ac58eaa19df86a58c07dfa8775939df70c56249992fc26a9e2cac61.webp"
+    },
+    "7339d9525ce602f12649e3fdb53a263e2f0fb22ed853d9c10a550b6d720f9c47.webp": {
+      "mime": "image/webp",
+      "bytes": 42836,
+      "sha256": "7339d9525ce602f12649e3fdb53a263e2f0fb22ed853d9c10a550b6d720f9c47",
+      "url": "https://abissamobile.com/appli/bundled-media/7339d9525ce602f12649e3fdb53a263e2f0fb22ed853d9c10a550b6d720f9c47.webp"
+    },
+    "7e5a91613618cdf90ccd9832b2d0c6d4cf44d26edc1bf63431a182835a233e52.webp": {
+      "mime": "image/webp",
+      "bytes": 43394,
+      "sha256": "7e5a91613618cdf90ccd9832b2d0c6d4cf44d26edc1bf63431a182835a233e52",
+      "url": "https://abissamobile.com/appli/bundled-media/7e5a91613618cdf90ccd9832b2d0c6d4cf44d26edc1bf63431a182835a233e52.webp"
+    },
+    "1dd3e78e91bf507167f418a25470df61d90cbf12a2a8eb42035905cb003d85b5.webp": {
+      "mime": "image/webp",
+      "bytes": 43008,
+      "sha256": "1dd3e78e91bf507167f418a25470df61d90cbf12a2a8eb42035905cb003d85b5",
+      "url": "https://abissamobile.com/appli/bundled-media/1dd3e78e91bf507167f418a25470df61d90cbf12a2a8eb42035905cb003d85b5.webp"
+    },
+    "19c443bd2d103a800a744a9f82b2052d431031f6abce60d692fb51ef0f824e74.webp": {
+      "mime": "image/webp",
+      "bytes": 42354,
+      "sha256": "19c443bd2d103a800a744a9f82b2052d431031f6abce60d692fb51ef0f824e74",
+      "url": "https://abissamobile.com/appli/bundled-media/19c443bd2d103a800a744a9f82b2052d431031f6abce60d692fb51ef0f824e74.webp"
+    }
+  }
+}

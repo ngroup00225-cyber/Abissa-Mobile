@@ -1,0 +1,17 @@
+{
+  "package": "com.abissa.mobile",
+  "alias": "androiddebugkey",
+  "keystore": "C:\\Users\\Narcisse Djéni\\Documents\\ChatGPT\\ABISSA MOBILE 2\\.release-signing\\backups\\2026-10-07\\historical-android.keystore",
+  "keystoreType": "PKCS12",
+  "entryType": "PrivateKeyEntry",
+  "privateKeyPasswordVerified": true,
+  "certificateName": "CN=Android Debug, O=Android, C=US",
+  "algorithm": "RSA",
+  "bits": 2048,
+  "sha1": "dccbd22b50ef56f11101f825c8f50bc7f28e11ca",
+  "sha256": "13f8e6d5d5ae51623d72d32e3d4b9c00b507e6ae5e61465679cc8740b6893293",
+  "backupExists": true,
+  "debugCertificate": true,
+  "publicCertificate": "C:\\Users\\Narcisse Djéni\\Documents\\ChatGPT\\ABISSA MOBILE 2\\store-assets\\historical-android-certificate.der",
+  "passwordIncluded": false
+}

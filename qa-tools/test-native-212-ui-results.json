@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "Seven bundled screens navigate with no network and no native permission request at launch",
+    "Site detail sends canonical native share and favorite actions",
+    "Hotel deep link opens its detail from cached content",
+    "Shop items expose native share and favorite controls",
+    "Native saved page/language restore; offline state is delivered without clearing web storage",
+    "Foreign deep links are ignored",
+    "Six native service controls are reachable from Profile at 360/390/768px without horizontal overflow"
+  ],
+  "errors": [],
+  "mode": "Browser bridge simulation, not a native device test"
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Back-office — Abissa Mobile</title>
+  <link rel="icon" type="image/png" href="assets/logo-abissa-mobile.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="assets/icons/remixicon.css?v=211" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=211">
+  <link rel="stylesheet" href="enhancements.css?v=211">
+  <link rel="stylesheet" href="admin-2026.css?v=211">
+<link rel="stylesheet" href="programme-view.css?v=211"><link rel="stylesheet" href="learning-view.css?v=211"><link rel="stylesheet" href="feedback.css?v=211"><link rel="stylesheet" href="experience-118.css?v=211"><link rel="stylesheet" href="learning-v8.css?v=211"><link rel="stylesheet" href="experience-201.css?v=211"><link rel="stylesheet" href="committee-view.css?v=211"><link rel="stylesheet" href="evolution-203.css?v=211"><link rel="stylesheet" href="release-209.css?v=211"></head>
+<body>
+  <section id="loginView" class="login-shell">
+    <div class="login-art" aria-hidden="true"><div class="pattern"></div><div class="login-brand"><img class="login-logo" src="assets/logo-abissa-mobile.png" alt=""><h1>Abissa Mobile</h1><p>La culture N’zima, pilotée depuis un seul espace.</p></div></div>
+    <form id="loginForm" class="login-card">
+      <img class="login-card-logo" src="assets/logo-abissa-mobile.png" alt="Abissa 2026"><div class="eyebrow">Accès sécurisé</div>
+      <h2>Back-office central</h2>
+      <p class="muted">Connectez-vous pour administrer et publier le contenu de l’application.</p>
+      <label>Identifiant<input id="loginUser" autocomplete="username" required></label>
+      <label>Mot de passe<span style="position:relative;display:block"><input id="loginPassword" type="password" autocomplete="current-password" required style="padding-right:48px"><button type="button" aria-label="Afficher le mot de passe" onclick="const i=document.getElementById('loginPassword');i.type=i.type==='password'?'text':'password';this.querySelector('i').className=i.type==='password'?'ri-eye-line':'ri-eye-off-line'" style="position:absolute;right:7px;top:14px;border:0;background:transparent;padding:8px"><i class="ri-eye-line"></i></button></span></label>
+      <p id="loginError" class="error" role="alert"></p>
+      <button class="primary wide" type="submit"><span>Se connecter</span><span>→</span></button>
+      <div class="security-note"><i class="ri-shield-check-line"></i> Session chiffrée et protégée</div>
+    </form>
+  </section>
+
+  <div id="appView" class="app-shell hidden">
+    <button id="sidebarBackdrop" class="sidebar-backdrop" aria-label="Fermer le menu"></button>
+    <aside class="sidebar">
+      <div class="brand"><img class="brand-logo" src="assets/logo-abissa-mobile.png" alt="Logo Abissa Mobile"><div><strong>ABISSA MOBILE</strong><small>Administration</small></div><button id="sidebarClose" class="sidebar-close" aria-label="Fermer le menu"><i class="ri-close-line"></i></button></div>
+      <div class="space-switch" aria-label="Espace de gestion">
+        <button data-space="application"><i class="ri-smartphone-line"></i><span>Application</span></button>
+        <button data-space="website"><i class="ri-global-line"></i><span>Site web</span></button>
+      </div>
+      <nav id="sideNav"></nav>
+      <div class="admin-chip"><span class="status-dot"></span><div><strong id="adminName">Administrateur</strong><small id="adminRole">Session active</small></div></div>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <button id="menuToggle" class="icon-button" aria-label="Afficher ou masquer le menu"><i class="ri-menu-line"></i></button>
+        <div><small id="spaceCaption">Gestion de l’application</small><h1 id="pageTitle">Tableau de bord</h1></div>
+        <div class="top-actions"><span id="syncBadge" class="sync-badge"><i></i> Synchronisé</span><a id="previewLink" class="ghost" href="mobile.html" target="_blank">Voir l’application <i class="ri-external-link-line"></i></a><button id="adminAccount" class="admin-account" type="button" aria-label="Mon profil"></button><button id="logoutBtn" class="primary logout-button" title="Déconnexion"><i class="ri-logout-box-r-line"></i><span>Déconnexion</span></button></div>
+      </header>
+      <div id="content" class="content"><div class="loading">Chargement du centre de contrôle…</div></div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="feedback.js?v=211"></script><script src="programme-data.js?v=211"></script><script src="programme-view.js?v=211"></script><script src="learning-data.js?v=211"></script><script src="learning-v8-data.js?v=211"></script><script src="learning-v8.js?v=211"></script><script src="learning-view.js?v=211"></script><script src="assets/qrcode.min.js?v=211"></script>
+  <script src="credential.js?v=213"></script>
+  <script src="content-model.js?v=211"></script>
+  <script src="module-management.js?v=211"></script><script src="app.js?v=211"></script>
+  <script src="workflows.js?v=214"></script>
+  <script src="admin-ui.js?v=211"></script>
+  <script src="qrcodes.js?v=211"></script>
+  <script src="committee-data.js?v=211"></script>
+  <script src="committee-view.js?v=211"></script>
+  <script src="committee-admin.js?v=211"></script>
+  <script src="directory.js?v=211"></script>
+  <script src="badge-workshop.js?v=212"></script>
+<script src="programme-admin.js?v=211"></script><script src="learning-admin.js?v=211"></script><script src="admin-experience.js?v=211"></script><script src="learning-v8-admin.js?v=211"></script><script src="settings-201.js?v=212"></script><script src="admin-203.js?v=211"></script><script src="palace-204-admin.js?v=211"></script><link rel="stylesheet" href="community.css?v=211"><script src="badge-designer.js?v=215"></script><script src="community-admin.js?v=212"></script><link rel="stylesheet" href="access.css?v=211"><script src="assets/jsqr.min.js?v=211"></script><script src="access-ui.js?v=212"></script><script src="pass-renderer.js?v=212"></script><script src="pass-editor.js?v=212"></script><script src="access-admin.js?v=212"></script><link rel="stylesheet" href="rearrangements.css?v=213"><script src="rearrangements.js?v=212"></script><script src="print-workshop.js?v=215"></script></body>
+</html>

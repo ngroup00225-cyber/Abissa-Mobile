@@ -1,0 +1,11 @@
+# Architecture analysée et état de livraison — 4 octobre 2026
+
+Le projet reçu est Android Java/WebView, HTML/CSS/JavaScript et PHP 8 avec stockage JSON. Aucun pubspec.yaml, source Dart ou dossier Flutter n’existait. La version source précédente était 2.0.9/code20. Les nombreuses livraisons historiques sont des instantanés : les sources actives sont app/, deploy-cpanel/ et website-v2/. backoffice/ est un prototype React distinct, non utilisé par le site PHP livré ; il n’a pas été remplacé.
+
+La version 2.1.1/code22 conserve le moteur web, les API PHP, les contenus, le dictionnaire, l’apprentissage, le programme, la boutique, le tourisme, le palais, les accréditations et les laissez-passer. ios/ ajoute une application UIKit/WKWebView avec ressources embarquées, partage natif, fichiers, localisation et inscription APNs. Ce choix préserve les fonctions existantes. Les commandes Flutter/Pods ne s’appliquent pas : aucun plugin Flutter ou CocoaPod n’est requis.
+
+Le stockage repose sur data/state.json, users.json, admins.json et submissions.json. Les accès API sont sérialisés par .transaction.lock ; les écritures sont atomiques, les anciennes données corrompues ne sont pas remplacées silencieusement. L’authentification utilisateur utilise des Bearer tokens aléatoires dont seul le hash est stocké côté serveur. Les admins utilisent un cookie HttpOnly, SameSite Strict et une protection CSRF ; les permissions sont vérifiées côté serveur et rafraîchies à chaque requête.
+
+Les commentaires gardent leur emplacement state.COMMENTS et le statut interne validated signifie désormais « publié immédiatement ». Les demandes Votre avis compte réutilisent submissions de type contact ; aucun second registre de contacts n’est créé. Les badges réutilisent les dossiers validés et le suivi credential_prints. Les nouvelles collections sont décrites dans MIGRATIONS_ET_API.md.
+
+Le code Swift et les fichiers Xcode ont été préparés depuis Windows. Ils n’ont pas été compilés avec Xcode et aucun .ipa, certificat Apple, profil signé ou numéro de fiche App Store n’est fourni. Les tests web à largeur iPhone/iPad ne remplacent pas les tests WKWebView, caméra, clavier, VoiceOver, AirPrint et APNs sur appareils réels. Android est compilable avec le SDK local ; les essais sur appareil restent à réaliser. Aucun serveur de production et aucun store n’ont été modifiés.

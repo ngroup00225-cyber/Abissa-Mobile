@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.abissa.mobile",
+      "sha256_cert_fingerprints": [
+        "13:F8:E6:D5:D5:AE:51:62:3D:72:D3:2E:3D:4B:9C:00:B5:07:E6:AE:5E:61:46:56:79:CC:87:40:B6:89:32:93"
+      ]
+    }
+  }
+]

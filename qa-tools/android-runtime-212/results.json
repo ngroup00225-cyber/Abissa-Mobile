@@ -1,0 +1,20 @@
+{
+  "completed": true,
+  "checks": [
+    "In-place 2.1.1 → 2.1.2 update retains UID, first installation time and app data directory inode",
+    "Signed release starts on Android 16 without the extra bottom toolbar",
+    "Native About screen exposes version/build, developer and useful links",
+    "Native scanner opens its camera activity and returns to Abissa; permission requested only at use",
+    "Android schedules and posts a real native reminder; tapping it opens the Programme screen",
+    "Hotel deep link resolves from bundled data and its Share button opens the Android chooser",
+    "Native favorite survives a full process restart",
+    "Native offline banner appears and bundled interface remains available"
+  ],
+  "errors": [],
+  "device": "Android 16 / API 36 isolated emulator",
+  "apkSha256": "af32a2388f80f5d082c1e6144f1fb8c662e37f96e4b8b5dabf1bb7c69bcd5a31",
+  "physicalDeviceVerified": false,
+  "accountSessionPersistenceVerified": false,
+  "cameraDecodeVerified": false,
+  "otherAndroidVersionsVerified": false
+}

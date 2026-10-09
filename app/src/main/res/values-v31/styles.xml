@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AbissaMobile" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowSplashScreenBackground">@color/abissa_blue_dark</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/abissa_blue_dark</item>
+        <item name="android:navigationBarColor">@color/abissa_blue</item>
+        <item name="android:colorAccent">@color/abissa_gold</item>
+    </style>
+</resources>

@@ -1,0 +1,22 @@
+{
+  "version": "2.0.9",
+  "versionCode": 20,
+  "targetSdk": 36,
+  "package": "com.abissa.mobile",
+  "checks": [
+    "Signed release AAB validated by bundletool",
+    "Manifest/package/version/API36 verified",
+    "Existing RSA4096 upload certificate reused",
+    "JAR SHA256withRSA signature verifies",
+    "Universal test APK generated and its manifest verified",
+    "AAB CRC, exact DEX and every bundled asset match",
+    "No native libraries: no app-owned ELF alignment dependency"
+  ],
+  "errors": [],
+  "aab": "C:\\Users\\Narcisse Djéni\\Documents\\ChatGPT\\ABISSA MOBILE 2\\Abissa-Mobile-v2.0.9-playstore.aab",
+  "aabBytes": 33744644,
+  "aabSha256": "73b0be7e959ebb7b75a65cc1c4434cd738c3294f0ccfd0498b846cf5fab351b6",
+  "uploadCertificateSha256": "8a6150371cd1a6a1cc3386b5564c9ae73babc5adc88ea46455dea39391538e67",
+  "signingPasswordStorage": "Windows-user DPAPI, never included in public delivery",
+  "runtimeConfirmed": false
+}

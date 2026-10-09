@@ -1,0 +1,5 @@
+<?php $pageId='abissa';$pageTitle='L’Abissa';require __DIR__.'/includes/header.php'; ?>
+<section class="page-hero"><span class="kicker">Héritage vivant</span><h1><?=e(pageHeading($website['abissaTitle']))?></h1><p><?=e(pageSubtitle($website['abissaIntro']))?></p><?=bannerLink()?></section>
+<nav class="abissa-subpages" aria-label="Dans L’Abissa"><a href="/abissa/programme.php">Programme de l’Abissa</a><a href="/abissa/actualites.php">Actualités de l’Abissa</a></nav>
+<section class="section article-layout"><div><span class="kicker dark">Transmission</span><h2>La tradition racontée aux générations</h2><?php foreach(items('HISTOIRE') as $part): ?><article class="text-block"><h3><?=e($part['title']??$part['name']??'Histoire')?></h3><p><?=nl2br(e($part['text']??$part['desc']??''))?></p></article><?php endforeach; ?></div><aside class="crest-panel"><img src="/assets/images/abissa-2026.png" alt="Emblème Abissa Mobile"><p>Royauté des N’zima Kotoko · Ko Etlé · Grand-Bassam</p></aside></section>
+<?php require __DIR__.'/includes/footer.php'; ?>

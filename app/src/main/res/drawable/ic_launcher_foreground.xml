@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"><item android:width="62dp" android:height="62dp" android:gravity="center"><bitmap android:src="@drawable/abissa_logo" android:gravity="fill" android:filter="true" /></item></layer-list>

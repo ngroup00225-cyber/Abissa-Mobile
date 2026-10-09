@@ -1,0 +1,8 @@
+#appBody{overscroll-behavior-y:contain}
+#pullRefresh{gap:10px;color:var(--navy);background:var(--cream);font-size:12px;font-weight:700;text-align:center;transition:height .2s ease}
+#pullRefresh svg{flex-shrink:0;stroke:currentColor}
+#pullRefresh.armed{color:#80591c}
+#pullRefresh.success{color:#246341}
+#pullRefresh.error{color:#923b32}
+.pull-refresh-label{max-width:calc(100% - 70px)}
+@media(prefers-reduced-motion:reduce){#pullRefresh{transition:none}#pullRefresh.spinning svg{animation:none}}

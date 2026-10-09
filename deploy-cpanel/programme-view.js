@@ -1,0 +1,18 @@
+window.AbissaProgramme=(()=>{
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function normalize(saved=[]){return saved.some(d=>d.modelVersion===2)?saved:structuredClone(AbissaProgrammeSeed.days);}
+ function mount(box,saved,options={}){
+  const days=normalize(saved).filter(d=>d.active!==false&&!d.legacy&&d.date).sort((a,b)=>a.date.localeCompare(b.date));let selected='all';
+  const format=(date,opts)=>new Date(date+'T12:00:00Z').toLocaleDateString('fr-FR',{...opts,timeZone:'UTC'});
+  const image=src=>{if(/^data:image\/(png|jpeg|webp);base64,/.test(src||''))return src;try{const u=new URL(src,options.base||location.href);return /^https?:$/.test(u.protocol)&&src?u.href:'';}catch{return '';}};
+ const poster=options.poster||new URL(AbissaProgrammeSeed.poster,options.base||location.href).href;
+  function draw(){
+   const shown=days.filter(d=>selected==='all'||d.id===selected);
+   box.innerHTML=`<div class="abissa-agenda"><section class="agenda-intro"><div><span class="agenda-kicker">Grand-Bassam · 23 octobre — 8 novembre</span><h2>Abissa <span>2026</span></h2><p>${esc(AbissaProgrammeSeed.theme)}</p><button type="button" class="agenda-poster-button"><i class="ri-image-line" aria-hidden="true"></i> Voir l’affiche officielle</button></div><img src="${esc(poster)}" alt="Affiche officielle Abissa 2026" loading="lazy"></section><nav class="agenda-dates" aria-label="Journées du programme"><button data-agenda-day="all" aria-pressed="${selected==='all'}"><small>PROGRAMME</small><strong>Tout voir</strong></button>${days.map(d=>`<button data-agenda-day="${esc(d.id)}" aria-pressed="${selected===d.id}"><small>${esc(format(d.date,{weekday:'short'}))}</small><strong>${esc(format(d.date,{day:'numeric',month:'short'}))}</strong></button>`).join('')}</nav><div class="agenda-days">${shown.map(d=>`<article class="agenda-day"><header><div class="agenda-date"><strong>${esc(format(d.date,{day:'2-digit'}))}</strong><span>${esc(format(d.date,{month:'short'}))}</span></div><div><small>${esc(format(d.date,{weekday:'long'}))}</small><h3>${esc(d.title)}</h3><p><i class="ri-map-pin-line" aria-hidden="true"></i> ${esc(d.location||'Grand-Bassam')}</p></div></header><ol>${(d.items||[]).filter(item=>item.active!==false).map(item=>`<li>${item.time?`<time>${esc(item.time)}</time>`:''}<div><p><strong>${esc(item.title||item.text||'')}</strong></p>${item.date&&item.date!==d.date?`<small>${esc(item.date)}</small>`:''}${item.location?`<p>${esc(item.location)}</p>`:''}${item.description?`<p>${esc(item.description)}</p>`:''}${[item.img,...(item.photos||[])].map(image).filter(Boolean).map(src=>`<img class="agenda-event-image" src="${esc(src)}" alt="${esc(item.title||item.text||'Événement')}" loading="lazy">`).join('')}</div></li>`).join('')}</ol></article>`).join('')||'<p class="agenda-empty">Le programme de cette journée sera publié prochainement.</p>'}</div></div>`;
+   box.querySelectorAll('[data-agenda-day]').forEach(b=>b.onclick=()=>{selected=b.dataset.agendaDay;draw();box.querySelector(`[data-agenda-day="${selected}"]`).focus({preventScroll:true});});
+   box.querySelector('.agenda-poster-button').onclick=()=>{const dialog=document.createElement('dialog');dialog.className='agenda-poster-dialog';dialog.setAttribute('aria-label','Affiche officielle du programme');dialog.innerHTML=`<button type="button">Fermer</button><img src="${esc(poster)}" alt="Programme officiel Abissa 2026">`;document.body.append(dialog);dialog.querySelector('button').onclick=()=>dialog.close();dialog.onclose=()=>{dialog.remove();box.querySelector('.agenda-poster-button').focus();};dialog.showModal();};
+  }
+  draw();
+ }
+ return {normalize,mount};
+})();

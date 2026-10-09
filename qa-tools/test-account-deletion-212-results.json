@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "Anonymous, missing confirmation and wrong password cannot delete an account",
+    "Deletion removes owned records, comments, progress, sessions, credentials, proof and private photo from active storage and managed backups",
+    "Another account and its shared image survive; client-supplied account ID cannot select another owner",
+    "Deleted session and login are rejected; other account can still log in"
+  ],
+  "errors": [],
+  "mode": "disposable synthetic accounts and storage"
+}

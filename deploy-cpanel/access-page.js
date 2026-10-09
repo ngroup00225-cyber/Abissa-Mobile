@@ -1,0 +1,11 @@
+(()=>{
+ const params=new URLSearchParams(location.search),id=params.get('id')||'',token=params.get('token')||'',code=id&&token?'https://abissamobile.com/appli/access-control.html?id='+encodeURIComponent(id)+'&token='+encodeURIComponent(token):'';let csrf='',scanner;
+ // Keep bearer credentials out of the displayed address and navigation referrers.
+ history.replaceState(null,'',location.pathname);
+ const by=id=>document.getElementById(id),call=async(route,method='GET',body)=>{const r=await fetch('api/'+route,{method,credentials:'same-origin',cache:'no-store',headers:{...(body!==undefined?{'Content-Type':'application/json'}:{}),...(csrf?{'X-CSRF-Token':csrf}:{})},...(body!==undefined?{body:JSON.stringify(body)}:{})});let data;try{data=await r.json();}catch{throw Error('Réponse serveur indisponible.');}if(!r.ok)throw Error(data.error||'Contrôle indisponible.');return data;};
+ if(code)call('access/inspect?id='+encodeURIComponent(id)+'&token='+encodeURIComponent(token)).then(r=>{by('publicStatus').textContent=r.valid?(r.credentialActive?'QR reconnu. Contrôle agent requis.':'Pass non actif. Contrôle agent requis.'):(r.message||'QR CODE INVALIDE');}).catch(()=>by('publicStatus').textContent='Serveur indisponible. Aucun accès autorisé.');else by('publicStatus').textContent='Connectez-vous pour scanner un laissez-passer.';
+ async function ready(){const points=await call('admin/access-checkpoints');by('agentLogin').hidden=true;by('logout').hidden=false;if(!code)by('publicStatus').textContent='Agent connecté. Choisissez votre point de contrôle.';scanner=AbissaAccessUI.mount(by('scanner'),points,call,code);}
+ call('auth/me').then(s=>{if(s.admin){csrf=s.csrf;ready().catch(e=>by('loginError').textContent=e.message);}}).catch(()=>{});
+ by('agentLogin').onsubmit=async e=>{e.preventDefault();by('loginError').textContent='';try{const s=await call('auth/login','POST',Object.fromEntries(new FormData(e.target)));csrf=s.csrf;e.target.elements.password.value='';await ready();}catch(e){by('loginError').textContent=e.message;}};
+ by('logout').onclick=async()=>{try{await call('auth/logout','POST',{});scanner?.stop();csrf='';by('scanner').replaceChildren();by('agentLogin').hidden=false;by('logout').hidden=true;}catch(e){by('publicStatus').textContent=e.message;}};
+})();

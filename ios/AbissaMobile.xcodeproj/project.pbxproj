@@ -1,0 +1,35 @@
+// !$*UTF8*$!
+{ archiveVersion = 1; classes = {}; objectVersion = 56; objects = {
+212000000000000000000001 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NativeCompanion.swift"; sourceTree = "<group>"; };
+212000000000000000000002 = {isa = PBXBuildFile; fileRef = 212000000000000000000001; };
+7508EF28938C079BDC9AE35F = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate.swift"; sourceTree = "<group>"; };
+78BF6A898DFA54771A86F83D = {isa = PBXBuildFile; fileRef = 7508EF28938C079BDC9AE35F; };
+7FCCC8925AFDDE632BDFD0F4 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AbissaViewController.swift"; sourceTree = "<group>"; };
+F7BA3C20DC821E2D99900081 = {isa = PBXBuildFile; fileRef = 7FCCC8925AFDDE632BDFD0F4; };
+7B594B6DB375E1BF3F23CDD6 = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info.plist"; sourceTree = "<group>"; };
+311F93C094198D7835607012 = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AbissaMobile.entitlements"; sourceTree = "<group>"; };
+26B2A637F7DC4079D5AB78A5 = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
+85485ABDDFC5AA715BEE5C09 = {isa = PBXBuildFile; fileRef = 26B2A637F7DC4079D5AB78A5; };
+D1D02FD418598B99C947A877 = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "LaunchScreen.storyboard"; sourceTree = "<group>"; };
+1F1782310977A7B3A6CCDCA3 = {isa = PBXBuildFile; fileRef = D1D02FD418598B99C947A877; };
+28AAD1477D5182D66D4B03B3 = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+1B316C2A61BC07AD2926E500 = {isa = PBXBuildFile; fileRef = 28AAD1477D5182D66D4B03B3; };
+A8323A2A9B34AE7E0CBE8181 = {isa = PBXFileReference; lastKnownFileType = folder; path = "Web"; sourceTree = "<group>"; };
+D98AADFEB2A10974AD217F64 = {isa = PBXBuildFile; fileRef = A8323A2A9B34AE7E0CBE8181; };
+0C107A853F92B3DF814FBBFB = {isa = XCBuildConfiguration; buildSettings = {SDKROOT = iphoneos; CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; }; name = Debug; };
+4C5F31322212CCD25FAEACFD = {isa = XCBuildConfiguration; baseConfigurationReference = D7D8729FD5629627DAC63199; buildSettings = {SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; APNS_ENVIRONMENT = development; }; name = Debug; };
+CE18B84F2AFB1F599D6B27AF = {isa = XCBuildConfiguration; buildSettings = {SDKROOT = iphoneos; CLANG_ENABLE_MODULES = YES; IPHONEOS_DEPLOYMENT_TARGET = 15.0; }; name = Release; };
+8CF7C695D973C3BA28916CBC = {isa = XCBuildConfiguration; baseConfigurationReference = D7D8729FD5629627DAC63199; buildSettings = {SWIFT_OPTIMIZATION_LEVEL = "-O"; APNS_ENVIRONMENT = production; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; }; name = Release; };
+2EB56BE3C2D93CDAB0C52E67 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (78BF6A898DFA54771A86F83D,F7BA3C20DC821E2D99900081,212000000000000000000002); runOnlyForDeploymentPostprocessing = 0; };
+87DF60DE337FB58864343E39 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (85485ABDDFC5AA715BEE5C09,1F1782310977A7B3A6CCDCA3,1B316C2A61BC07AD2926E500,D98AADFEB2A10974AD217F64); runOnlyForDeploymentPostprocessing = 0; };
+AF39DD055C3EF8226FBE929D = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+D7D8729FD5629627DAC63199 = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Shared.xcconfig; sourceTree = "<group>"; };
+38A007151ABE87CC01A5B6E9 = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AbissaMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+3A2A88DEEFF3D1D23E496597 = {isa = PBXGroup; children = (7508EF28938C079BDC9AE35F,7FCCC8925AFDDE632BDFD0F4,212000000000000000000001,7B594B6DB375E1BF3F23CDD6,311F93C094198D7835607012,26B2A637F7DC4079D5AB78A5,D1D02FD418598B99C947A877,28AAD1477D5182D66D4B03B3,A8323A2A9B34AE7E0CBE8181); path = AbissaMobile; sourceTree = "<group>"; };
+FBDC4F23F93125BBEEAE800C = {isa = PBXGroup; children = (38A007151ABE87CC01A5B6E9); name = Products; sourceTree = "<group>"; };
+B28B7AF69320201D1CF206EB = {isa = PBXGroup; children = (3A2A88DEEFF3D1D23E496597,D7D8729FD5629627DAC63199,FBDC4F23F93125BBEEAE800C); sourceTree = "<group>"; };
+862894B703A6DEDF96A9DD6C = {isa = XCConfigurationList; buildConfigurations = (0C107A853F92B3DF814FBBFB,CE18B84F2AFB1F599D6B27AF); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+C57128001CE614BF8549D6BB = {isa = XCConfigurationList; buildConfigurations = (4C5F31322212CCD25FAEACFD,8CF7C695D973C3BA28916CBC); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+0E8A3AD980EC179856012B7E = {isa = PBXNativeTarget; buildConfigurationList = C57128001CE614BF8549D6BB; buildPhases = (2EB56BE3C2D93CDAB0C52E67,AF39DD055C3EF8226FBE929D,87DF60DE337FB58864343E39); buildRules = (); dependencies = (); name = AbissaMobile; productName = AbissaMobile; productReference = 38A007151ABE87CC01A5B6E9; productType = "com.apple.product-type.application"; };
+98F54143AB4E86B28C3AFEE0 = {isa = PBXProject; attributes = {LastUpgradeCheck = 2600; TargetAttributes = {0E8A3AD980EC179856012B7E = {CreatedOnToolsVersion = 26.0; ProvisioningStyle = Automatic; }; }; }; buildConfigurationList = 862894B703A6DEDF96A9DD6C; compatibilityVersion = "Xcode 14.0"; developmentRegion = fr; hasScannedForEncodings = 0; knownRegions = (fr,en,Base); mainGroup = B28B7AF69320201D1CF206EB; productRefGroup = FBDC4F23F93125BBEEAE800C; projectDirPath = ""; projectRoot = ""; targets = (0E8A3AD980EC179856012B7E); };
+}; rootObject = 98F54143AB4E86B28C3AFEE0; }

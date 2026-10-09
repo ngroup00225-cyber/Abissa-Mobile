@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 2,
+  "title": "Comité d’organisation",
+  "year": "2026",
+  "chartImage": "assets/organigramme-abissa-officiel-2026.png",
+  "leaders": [
+    {
+      "id": "pca",
+      "name": "Sa Majesté Awoulae Tanoé Amon",
+      "role": "PCA",
+      "description": "Roi de Grand-Bassam",
+      "img": "",
+      "color": "#D4AF37",
+      "icon": "ri-vip-crown-fill"
+    },
+    {
+      "id": "pco",
+      "name": "Jean-Baptiste Amichia",
+      "role": "PCO",
+      "description": "Coordination générale",
+      "img": "",
+      "color": "#D4AF37",
+      "icon": "ri-team-fill"
+    },
+    {
+      "id": "tradition",
+      "name": "N’damoulé Binlin",
+      "role": "VP chargé de la Tradition",
+      "description": "",
+      "img": "",
+      "color": "#D4AF37",
+      "icon": "ri-leaf-fill"
+    },
+    {
+      "id": "exterieur",
+      "name": "Gilles Olivier Niamke",
+      "role": "VP Chargé des Affaires Extérieures",
+      "description": "",
+      "img": "",
+      "color": "#D4AF37",
+      "icon": "ri-shake-hands-fill"
+    },
+    {
+      "id": "finances",
+      "name": "Ahua Jérôme",
+      "role": "VP chargé des Finances & Sponsoring",
+      "description": "",
+      "img": "",
+      "color": "#D4AF37",
+      "icon": "ri-coins-fill"
+    }
+  ],
+  "poles": [
+    {
+      "id": "tradition",
+      "number": 1,
+      "name": "Tradition, Culture & Mémoire",
+      "color": "#a87319",
+      "icon": "ri-government-fill"
+    },
+    {
+      "id": "communication",
+      "number": 2,
+      "name": "Communication, Digital & Médias",
+      "color": "#086bad",
+      "icon": "ri-megaphone-fill"
+    },
+    {
+      "id": "accueil",
+      "number": 3,
+      "name": "Accueil, Protocole, Tourisme & Restauration",
+      "color": "#287b45",
+      "icon": "ri-tree-fill"
+    },
+    {
+      "id": "operations",
+      "number": 4,
+      "name": "Opérations, Sécurité & Logistique",
+      "color": "#b94035",
+      "icon": "ri-shield-fill"
+    },
+    {
+      "id": "finances",
+      "number": 5,
+      "name": "Finances, Partenariats & Espaces Commerciaux",
+      "color": "#72519a",
+      "icon": "ri-bar-chart-fill"
+    }
+  ],
+  "commissions": [
+    {
+      "id": "tradition-culture",
+      "poleId": "tradition",
+      "name": "Commission Tradition et Valorisation de la Culture",
+      "aliases": [
+        "Culture et Traditions"
+      ],
+      "members": [],
+      "icon": "ri-team-fill"
+    },
+    {
+      "id": "archives",
+      "poleId": "tradition",
+      "name": "Commission Archives et Documentation",
+      "aliases": [
+        "Archive et Documentation",
+        "Archives et Documentations"
+      ],
+      "members": [],
+      "icon": "ri-book-open-fill"
+    },
+    {
+      "id": "animation",
+      "poleId": "tradition",
+      "name": "Commission Animation",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-team-fill"
+    },
+    {
+      "id": "digitale",
+      "poleId": "communication",
+      "name": "Commission Digitale",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-macbook-fill"
+    },
+    {
+      "id": "presse",
+      "poleId": "communication",
+      "name": "Commission Presse",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-newspaper-fill"
+    },
+    {
+      "id": "audiovisuelle",
+      "poleId": "communication",
+      "name": "Commission Audiovisuelle",
+      "aliases": [
+        "Audio Visuel",
+        "Audiovisuel",
+        "Audio Visuelle"
+      ],
+      "members": [],
+      "icon": "ri-video-on-fill"
+    },
+    {
+      "id": "accueil",
+      "poleId": "accueil",
+      "name": "Commission Accueil",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-team-fill"
+    },
+    {
+      "id": "protocole",
+      "poleId": "accueil",
+      "name": "Commission Protocole",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-shirt-fill"
+    },
+    {
+      "id": "tourisme",
+      "poleId": "accueil",
+      "name": "Commission Tourisme et Restauration",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-restaurant-fill"
+    },
+    {
+      "id": "securite",
+      "poleId": "operations",
+      "name": "Commission Sécurité",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-shield-fill"
+    },
+    {
+      "id": "sante",
+      "poleId": "operations",
+      "name": "Commission Santé",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-add-circle-fill"
+    },
+    {
+      "id": "salubrite",
+      "poleId": "operations",
+      "name": "Commission Salubrité",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-leaf-fill"
+    },
+    {
+      "id": "logistique",
+      "poleId": "operations",
+      "name": "Commission Logistique",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-truck-fill"
+    },
+    {
+      "id": "transport",
+      "poleId": "operations",
+      "name": "Commission Transport",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-bus-fill"
+    },
+    {
+      "id": "finance",
+      "poleId": "finances",
+      "name": "Commission Finance et Sponsoring",
+      "aliases": [
+        "Finances et Sponsoring"
+      ],
+      "members": [],
+      "icon": "ri-coins-fill"
+    },
+    {
+      "id": "maquis",
+      "poleId": "finances",
+      "name": "Commission Gestion des Maquis et Commerces",
+      "aliases": [
+        "Gestion de Maquis et Commerces"
+      ],
+      "members": [],
+      "icon": "ri-store-2-fill"
+    },
+    {
+      "id": "solibra",
+      "poleId": "finances",
+      "name": "COMMISSARIAT VILLAGE SOLIBRA",
+      "aliases": [
+        "Commission Village SOLIBRA"
+      ],
+      "members": [],
+      "icon": "ri-goblet-fill"
+    },
+    {
+      "id": "orange",
+      "poleId": "finances",
+      "name": "COMMISSARIAT VILLAGE ORANGE",
+      "aliases": [
+        "Commission Village ORANGE"
+      ],
+      "members": [],
+      "icon": "ri-cup-fill"
+    },
+    {
+      "id": "juridique",
+      "poleId": "operations",
+      "name": "Commission Juridique",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-team-fill"
+    },
+    {
+      "id": "force-vente",
+      "poleId": "finances",
+      "name": "Commission Force de Vente",
+      "aliases": [],
+      "members": [],
+      "icon": "ri-team-fill"
+    }
+  ],
+  "iconOptions": [
+    {
+      "value": "ri-government-fill",
+      "label": "Tradition et patrimoine"
+    },
+    {
+      "value": "ri-megaphone-fill",
+      "label": "Communication"
+    },
+    {
+      "value": "ri-tree-fill",
+      "label": "Accueil et tourisme"
+    },
+    {
+      "value": "ri-shield-fill",
+      "label": "Sécurité"
+    },
+    {
+      "value": "ri-bar-chart-fill",
+      "label": "Finances et partenariats"
+    },
+    {
+      "value": "ri-team-fill",
+      "label": "Équipe"
+    },
+    {
+      "value": "ri-book-open-fill",
+      "label": "Archives"
+    },
+    {
+      "value": "ri-macbook-fill",
+      "label": "Digital"
+    },
+    {
+      "value": "ri-newspaper-fill",
+      "label": "Presse"
+    },
+    {
+      "value": "ri-video-on-fill",
+      "label": "Audiovisuel"
+    },
+    {
+      "value": "ri-shirt-fill",
+      "label": "Cravate · Protocole"
+    },
+    {
+      "value": "ri-restaurant-fill",
+      "label": "Restauration"
+    },
+    {
+      "value": "ri-add-circle-fill",
+      "label": "Santé"
+    },
+    {
+      "value": "ri-leaf-fill",
+      "label": "Salubrité et tradition"
+    },
+    {
+      "value": "ri-truck-fill",
+      "label": "Logistique"
+    },
+    {
+      "value": "ri-bus-fill",
+      "label": "Transport"
+    },
+    {
+      "value": "ri-coins-fill",
+      "label": "Finance"
+    },
+    {
+      "value": "ri-store-2-fill",
+      "label": "Commerces"
+    },
+    {
+      "value": "ri-goblet-fill",
+      "label": "Village et boissons"
+    },
+    {
+      "value": "ri-cup-fill",
+      "label": "Bouteille · Village ORANGE"
+    },
+    {
+      "value": "ri-vip-crown-fill",
+      "label": "PCA"
+    },
+    {
+      "value": "ri-shake-hands-fill",
+      "label": "Relations extérieures"
+    }
+  ],
+  "iconGlyphs": {
+    "ri-government-fill": "",
+    "ri-megaphone-fill": "",
+    "ri-tree-fill": "",
+    "ri-shield-fill": "",
+    "ri-bar-chart-fill": "",
+    "ri-team-fill": "",
+    "ri-book-open-fill": "",
+    "ri-macbook-fill": "",
+    "ri-newspaper-fill": "",
+    "ri-video-on-fill": "",
+    "ri-shirt-fill": "",
+    "ri-restaurant-fill": "",
+    "ri-add-circle-fill": "",
+    "ri-leaf-fill": "",
+    "ri-truck-fill": "",
+    "ri-bus-fill": "",
+    "ri-coins-fill": "",
+    "ri-store-2-fill": "",
+    "ri-goblet-fill": "",
+    "ri-cup-fill": "",
+    "ri-vip-crown-fill": "",
+    "ri-shake-hands-fill": ""
+  },
+  "iconImages": {
+    "ri-tree-fill": "data:image/svg+xml;base64,PHN2ZwogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICB3aWR0aD0iMjQiCiAgaGVpZ2h0PSIyNCIKICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgZmlsbD0ibm9uZSIKICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTMgOGMwLTIuNzYtMi40Ni01LTUuNS01UzIgNS4yNCAyIDhoMmwxLTEgMSAxaDQiIC8+CiAgPHBhdGggZD0iTTEzIDcuMTRBNS44MiA1LjgyIDAgMCAxIDE2LjUgNmMzLjA0IDAgNS41IDIuMjQgNS41IDVoLTNsLTEtMS0xIDFoLTMiIC8+CiAgPHBhdGggZD0iTTUuODkgOS43MWMtMi4xNSAyLjE1LTIuMyA1LjQ3LS4zNSA3LjQzbDQuMjQtNC4yNS43LS43LjcxLS43MSAyLjEyLTIuMTJjLTEuOTUtMS45Ni01LjI3LTEuOC03LjQyLjM1IiAvPgogIDxwYXRoIGQ9Ik0xMSAxNS41Yy41IDIuNS0uMTcgNC41LTEgNi41aDRjMi01LjUtLjUtMTItMS0xNCIgLz4KPC9zdmc+Cg==",
+    "ri-shirt-fill": "data:image/svg+xml;base64,PCEtLQp0YWdzOiBbc3VpdCwgYnVpc25lc3MsIGZhc2hpb24sIGNsb3RoZXMsIGFjY2Vzc29yeSwgY2xvdGhpbmcsIHRpZSwgc3RvcmUsIHB1cmNoYXNlLCBzaG9wcGluZ10KY2F0ZWdvcnk6IEUtY29tbWVyY2UKdmVyc2lvbjogIjEuNTkiCnVuaWNvZGU6ICJmMDdlIgotLT4KPHN2ZwogIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICB3aWR0aD0iMjQiCiAgaGVpZ2h0PSIyNCIKICB2aWV3Qm94PSIwIDAgMjQgMjQiCiAgZmlsbD0ibm9uZSIKICBzdHJva2U9ImN1cnJlbnRDb2xvciIKICBzdHJva2Utd2lkdGg9IjIiCiAgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIgogIHN0cm9rZS1saW5lam9pbj0icm91bmQiCj4KICA8cGF0aCBkPSJNMTIgMjJsNCAtNGwtMi41IC0xMWwuOTkzIC0yLjY0OWExIDEgMCAwIDAgLS45MzYgLTEuMzUxaC0zLjExNGExIDEgMCAwIDAgLS45MzYgMS4zNTFsLjk5MyAyLjY0OWwtMi41IDExbDQgNCIgLz4KICA8cGF0aCBkPSJNMTAuNSA3aDNsNSA1LjUiIC8+Cjwvc3ZnPgo=",
+    "ri-cup-fill": "data:image/svg+xml;base64,PCEtLQp0YWdzOiBbd2F0ZXIsIGRyaW5rLCBiZWVyLCBlbmVyZ3ksIHdpbmUsIGJvdHRsZSwgbWVhbCwgY3Vpc2luZSwgZWF0aW5nLCBudXRyaXRpb25dCmNhdGVnb3J5OiBGb29kCnZlcnNpb246ICIxLjQwIgp1bmljb2RlOiAiZWYwYiIKLS0+CjxzdmcKICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgd2lkdGg9IjI0IgogIGhlaWdodD0iMjQiCiAgdmlld0JveD0iMCAwIDI0IDI0IgogIGZpbGw9Im5vbmUiCiAgc3Ryb2tlPSJjdXJyZW50Q29sb3IiCiAgc3Ryb2tlLXdpZHRoPSIyIgogIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIKICBzdHJva2UtbGluZWpvaW49InJvdW5kIgo+CiAgPHBhdGggZD0iTTEwIDVoNHYtMmExIDEgMCAwIDAgLTEgLTFoLTJhMSAxIDAgMCAwIC0xIDF2MiIgLz4KICA8cGF0aCBkPSJNMTQgMy41YzAgMS42MjYgLjUwNyAzLjIxMiAxLjQ1IDQuNTM3bC4wNSAuMDdhOC4wOTMgOC4wOTMgMCAwIDEgMS41IDQuNjk0djYuMTk5YTIgMiAwIDAgMSAtMiAyaC02YTIgMiAwIDAgMSAtMiAtMnYtNi4yYzAgLTEuNjgyIC41MjQgLTMuMzIyIDEuNSAtNC42OTNsLjA1IC0uMDdhNy44MjMgNy44MjMgMCAwIDAgMS40NSAtNC41MzciIC8+CiAgPHBhdGggZD0iTTcgMTQuODAzYTIuNCAyLjQgMCAwIDAgMSAtLjgwM2EyLjQgMi40IDAgMCAxIDIgLTFhMi40IDIuNCAwIDAgMSAyIDFhMi40IDIuNCAwIDAgMCAyIDFhMi40IDIuNCAwIDAgMCAyIC0xYTIuNCAyLjQgMCAwIDEgMSAtLjgwNSIgLz4KPC9zdmc+Cg=="
+  }
+}

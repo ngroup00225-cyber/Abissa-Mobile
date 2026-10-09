@@ -1,0 +1,28 @@
+{
+  "checks": [
+    "Inscription et authentification avec tokens serveur",
+    "Migration sauvegardée et commentaires en attente publiés",
+    "Publication immédiate et visible publiquement",
+    "Réponse liée et notification pertinente",
+    "Like idempotent et retrait du Like",
+    "Signalement reçu dans le back-office sans doublon",
+    "Masquage et protection des réponses à un commentaire masqué",
+    "Masquage personnel des auteurs sans blocage global",
+    "Blog brouillon/en attente privé ; auteur et statut imposés serveur",
+    "Refus motivé, correction, validation et publication administrateur",
+    "Interactions sur Blog publié sans validation des commentaires",
+    "Avis, réponse admin, historique privé et fermeture",
+    "Blocage/suspension appliqués aux sessions déjà ouvertes ; déblocage",
+    "Permissions serveur, statistiques limitées et CSRF admin",
+    "Quantités 5+2+10=17, 6 copies uniques, 4/A4 et 5 pages calculées",
+    "Quantités invalides et marges hors limites refusées",
+    "Modèle et édition badge persistés, formats et positions validés serveur",
+    "Slider partagé et liens exécutables refusés",
+    "Notifications officielles et inscription appareil APNs",
+    "Avis visiteur accepté sans rendre son historique public",
+    "Suppression groupée et journal des opérations",
+    "Déconnexion révoque réellement le token serveur",
+    "Suppression du compte étendue au Blog, aux avis et aux appareils APNs"
+  ],
+  "data": "isolated fixtures only"
+}

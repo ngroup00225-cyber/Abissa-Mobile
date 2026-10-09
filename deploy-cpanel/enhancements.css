@@ -1,0 +1,13 @@
+.login-art{background:linear-gradient(145deg,#061d4f,#00658a 62%,#009ed6)}
+.login-logo{width:148px;height:148px;object-fit:contain;border-radius:32px;background:#fff;box-shadow:0 22px 55px rgba(0,0,0,.28)}
+.brand-logo{width:48px;height:48px;object-fit:contain;border-radius:13px;background:#fff;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.photo-manager{grid-column:1/-1;border:1px dashed rgba(0,101,138,.32);border-radius:16px;padding:14px;background:#f7fcfe}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:10px}
+.photo-tile{position:relative;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#e8eef0 center/cover no-repeat}
+.photo-tile button{position:absolute;right:6px;top:6px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(34,20,12,.8);color:#fff}
+.drop-zone{display:flex;align-items:center;justify-content:center;gap:8px;min-height:80px;border:2px dashed var(--line);border-radius:13px;background:white;color:var(--deep);font-size:12px;font-weight:800;cursor:pointer;text-align:center;padding:12px}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--blue);background:#eefaff}.drop-zone input{display:none}
+.permission-section{border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:12px}
+.permission-section header{display:flex;align-items:center;justify-content:space-between;gap:10px}.permission-section h4{margin:0;font:800 13px Fraunces,serif;color:var(--deep)}
+.admin-editor{border:1px solid var(--line);border-radius:15px;padding:14px;margin-top:12px;background:#fff}.bulk-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.data-table .user-details{font-size:10px;line-height:1.55;color:var(--soft)}
+.website-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.website-settings:first-child{grid-column:1/-1}.site-module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.site-module-card{display:flex;flex-direction:column;gap:7px;text-align:left;border:1px solid var(--line);border-radius:15px;background:#fff;padding:16px;color:var(--ink)}.site-module-card:hover{border-color:var(--blue);transform:translateY(-2px);box-shadow:0 12px 25px rgba(0,101,138,.1)}.site-module-card strong{font:800 16px Fraunces,serif;color:var(--deep)}.site-module-card span{font-size:10px;line-height:1.5;color:var(--soft)}.site-module-card em{font-style:normal;font-size:10px;font-weight:800;color:var(--red);margin-top:auto}@media(max-width:900px){.website-grid,.site-module-grid{grid-template-columns:1fr}.website-settings:first-child{grid-column:auto}}

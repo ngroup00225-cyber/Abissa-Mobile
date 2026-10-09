@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "PHP syntax: 47 API/site files",
+    "JavaScript syntax: 45 shared interface files",
+    "iOS plists, privacy, capabilities, version/build, Swift membership, launch screen and shared scheme validated; Xcode build pending",
+    "Android package/build, native scanner library and permission declarations validated",
+    "Signature, store privacy and GitHub/Codemagic owner instructions present"
+  ],
+  "errors": [],
+  "iosBuildVerified": false,
+  "physicalDeviceVerified": false
+}

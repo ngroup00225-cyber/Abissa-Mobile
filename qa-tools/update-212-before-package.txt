@@ -1,0 +1,131 @@
+Activity Resolver Table:
+  Schemes:
+      https:
+        b81bbd com.abissa.mobile/.MainActivity filter 7a92903
+          Action: "android.intent.action.VIEW"
+          Category: "android.intent.category.DEFAULT"
+          Category: "android.intent.category.BROWSABLE"
+          Scheme: "https"
+          Authority: "abissamobile.com": -1
+          Path: "PatternMatcher{PREFIX: /appli/mobile.html}"
+          AutoVerify=true
+
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        b81bbd com.abissa.mobile/.MainActivity filter 80595b2
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+Domain verification status:
+  com.abissa.mobile:
+    ID: 3d4a43e5-b730-4281-8e9f-b1db79462b56
+    Signatures: [13:F8:E6:D5:D5:AE:51:62:3D:72:D3:2E:3D:4B:9C:00:B5:07:E6:AE:5E:61:46:56:79:CC:87:40:B6:89:32:93]
+    Domain verification state:
+      abissamobile.com: 1024
+    User all:
+      Verification link handling allowed: true
+      Selection state:
+        Disabled:
+          abissamobile.com
+
+Key Set Manager:
+  [com.abissa.mobile]
+      Signing KeySets: 64
+
+Packages:
+  Package [com.abissa.mobile] (8d4b4e9):
+    appId=10217
+    pkg=Package{1c4d961 com.abissa.mobile}
+    codePath=/data/app/~~T_qFNzJaQQ9TPy2or275UQ==/com.abissa.mobile-D-oLQ5uGIMILeRr5rCwSvA==
+    resourcePath=/data/app/~~T_qFNzJaQQ9TPy2or275UQ==/com.abissa.mobile-D-oLQ5uGIMILeRr5rCwSvA==
+    legacyNativeLibraryDir=/data/app/~~T_qFNzJaQQ9TPy2or275UQ==/com.abissa.mobile-D-oLQ5uGIMILeRr5rCwSvA==/lib
+    extractNativeLibs=true
+    primaryCpuAbi=null
+    secondaryCpuAbi=null
+    cpuAbiOverride=null
+    versionCode=22 minSdk=23 targetSdk=36
+    minExtensionVersions=[]
+    versionName=2.1.1
+    hiddenApiEnforcementPolicy=2
+    usesNonSdkApi=false
+    splits=[base]
+    apkSigningVersion=4
+    flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE HAS_DOMAIN_URLS PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    forceQueryable=false
+    pageSizeCompat=0
+    scannedAsStoppedSystemApp=false
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    timeStamp=2026-10-07 09:39:10
+    lastUpdateTime=2026-10-07 09:39:11
+    installerPackageName=null
+    installerPackageUid=-1
+    initiatingPackageName=com.android.shell
+    originatingPackageName=null
+    packageSource=1
+    loadingProgress=100%
+    loadingCompletedTime=2026-10-07 09:39:12
+    appMetadataFilePath=null
+    appMetadataSource=0
+    signatures=PackageSignatures{d124c86 version:4, signatures:[efb82d25], past signatures:[]}
+    installPermissionsFixed=false
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privatePkgFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE HAS_DOMAIN_URLS PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    apexModuleName=null
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.ACCESS_COARSE_LOCATION
+    install permissions:
+      android.permission.INTERNET: granted=true
+    User 0: ceDataInode=352898 deDataInode=106579 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false quarantined=false
+      installReason=0
+      dataDir=/data/user/0/com.abissa.mobile
+      firstInstallTime=2026-10-07 09:39:11
+      uninstallReason=0
+      overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+        /data/resource-cache/com.android.systemui-neutral-TIHN.frro
+        /data/resource-cache/com.android.systemui-accent-QNtr.frro
+        /data/resource-cache/com.android.systemui-dynamic-PCdt.frro
+      legacy overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+      runtime permissions:
+        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+
+Queries:
+  system apps queryable: false
+  queries via forceQueryable:
+  queries via package name:
+  queries via component:
+    com.google.android.as:
+      com.abissa.mobile
+    com.google.android.apps.messaging:
+      com.abissa.mobile
+    com.google.android.settings.intelligence:
+      com.abissa.mobile
+    com.google.android.apps.accessibility.voiceaccess:
+      com.abissa.mobile
+  queryable via interaction:
+    User 0:
+      [com.android.localtransport,com.android.inputdevices,com.android.server.telecom,com.android.emulator.multidisplay,com.android.location.fused,android,com.android.providers.settings,com.android.DeviceAsWebcam,com.android.settings,com.android.keychain,com.android.dynsystem]:
+        com.abissa.mobile
+      com.google.android.gms:
+        com.abissa.mobile
+      com.google.android.inputmethod.latin:
+        com.abissa.mobile
+      com.google.android.webview:
+        com.abissa.mobile
+      com.abissa.mobile:
+        com.google.android.webview
+  queryable via uses-library:
+
+Dexopt state:
+  [com.abissa.mobile]
+    path: /data/app/~~T_qFNzJaQQ9TPy2or275UQ==/com.abissa.mobile-D-oLQ5uGIMILeRr5rCwSvA==/base.apk
+      x86_64: [status=run-from-apk] [reason=unknown] [primary-abi]
+        [location is error]
+
+Compiler stats:
+  [com.abissa.mobile]
+    (No recorded stats)

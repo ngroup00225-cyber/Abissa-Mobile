@@ -1,0 +1,18 @@
+/* Symmetric slider controls and icon cards grounded in the supplied references. */
+#carousel{position:relative;isolation:isolate}
+#carousel .r-carousel-next,#carousel .c210-carousel-prev{position:absolute!important;top:50%!important;bottom:auto!important;transform:translateY(-50%);width:42px;height:42px;margin:0;z-index:8;background:#06466ec7;border:1px solid #fff9;color:#fff;box-shadow:none;display:flex;align-items:center;justify-content:center}
+#carousel .r-carousel-next{right:12px!important;left:auto!important}
+#carousel .c210-carousel-prev{left:12px!important;right:auto!important}
+#carousel [hidden]{display:none!important}
+#carousel .r-iconbutton i{font-size:27px;line-height:1}
+.carousel-wrap .dots{position:relative;inset:auto;justify-content:center;padding:11px 0 5px;min-height:24px}
+#slideCounter{display:none!important}
+#menuGrid{background-image:linear-gradient(#fbf6e8ed,#eaf4ffed),var(--a211-menu-image);background-size:cover;background-position:center bottom;gap:7px;padding:10px}
+#menuGrid .tile{position:relative;min-height:96px!important;padding:9px 6px 10px;gap:6px;overflow:hidden;border:1px solid #fff;box-shadow:0 3px 11px #58471909;background:#ffffffed}
+#menuGrid .tile:before{content:'';position:absolute;inset:0;z-index:0;background-image:var(--a211-menu-image);background-size:cover;background-position:right top;opacity:.045;pointer-events:none}
+#menuGrid .tile>*{position:relative;z-index:1}
+#menuGrid .tile .icon{height:42px;display:flex;align-items:center;justify-content:center}
+#menuGrid .tile .icon img{width:43px;height:43px;object-fit:contain}
+#menuGrid .tile .t-main{font-size:11px;font-weight:700;line-height:1.18;max-width:100%;padding-right:0;color:#092b61;text-align:center;width:100%;min-height:24px}
+@media(min-width:500px){#menuGrid .tile{min-height:110px!important}#menuGrid .tile .t-main{font-size:12px}#menuGrid .tile .icon img{width:48px;height:48px}}
+@media(max-width:370px){#menuGrid .tile .t-main{font-size:10.5px}}

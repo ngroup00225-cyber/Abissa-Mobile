@@ -1,0 +1,28 @@
+{
+  "source": "https://github.com/microsoft/fluentui-system-icons",
+  "pages": {
+    "programme": "Calendar Clock",
+    "histoire": "Book",
+    "sites": "Location Ripple",
+    "hotels": "Food",
+    "galerie": "Image",
+    "actualites": "News",
+    "partenaires": "People Interwoven",
+    "accreditation": "Contact Card",
+    "comite": "People Team",
+    "langue": "Mic",
+    "lexique": "Book Open",
+    "direct": "Video",
+    "guides": "Guest",
+    "palais": "Building Government",
+    "site-web": "Globe",
+    "boutique": "Gift",
+    "publicite": "Custom ABISSA advertising megaphone",
+    "carte": "Location Ripple",
+    "blog": "Document Text",
+    "feedback": "Chat"
+  },
+  "customAssets": {
+    "publicite.svg": "Original ABISSA SVG: orange/gold horn and blue handle, created for this project."
+  }
+}

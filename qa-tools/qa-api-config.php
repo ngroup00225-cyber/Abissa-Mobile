@@ -1,0 +1,13 @@
+<?php
+// Isolated QA fixtures only. Never deploy this file as the server configuration.
+const APP_NAME = 'Abissa isolated QA';
+const FOUNDER_USERNAME = 'qa-founder-disabled';
+const FOUNDER_SALT = 'isolated-fixtures-not-production';
+const FOUNDER_PASSWORD_HASH = '';
+const FOUNDER_HASH_ITERATIONS = 10000;
+const MAX_JSON_BYTES = 10485760;
+const MAX_UPLOAD_BYTES = 5242880;
+const WHATSAPP_PHONE_NUMBER_ID = '';
+const WHATSAPP_ACCESS_TOKEN = '';
+const WHATSAPP_API_VERSION = 'v21.0';
+const PUBLIC_STATE_KEYS = ['WELCOME','APP_LAUNCH','EVENTS','PROGRAMME','SITES','HOTELS','NEWS','GALLERY','PRODUCTS','PARTNERS','HISTOIRE','NZEMA_DICT','NZIMA_FAMILIES','COMMITTEE','SETTINGS','MENU_ITEMS','WEBSITE','USER_CONTRACT','SITE_SLIDES','PAGE_BANNERS','COMMENTS','COMMISSIONS','BADGE_SETTINGS'];
