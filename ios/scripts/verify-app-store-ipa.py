@@ -1,10 +1,18 @@
 """Check the produced IPA before Codemagic publishing; this does not claim Apple acceptance."""
 from pathlib import Path
-import json,plistlib,subprocess,sys,tempfile,zipfile
+import json,plistlib,re,subprocess,sys,tempfile,zipfile
 
 ROOT=Path(__file__).resolve().parents[2]
 
 def verify_identity(info,entitlements,profile,metadata):
+    if metadata.get('bundleIdentifier')!='ci.abissa' or metadata.get('teamId')!='XY97926U94':
+        raise ValueError('Build metadata differs from the authorized Apple identity.')
+    number=metadata.get('buildNumber')
+    if not isinstance(number,str) or not re.fullmatch(r'[1-9][0-9]{0,3}',number):
+        raise ValueError('Selected CFBundleVersion must be an integer string in 1..9999.')
+    version=metadata.get('marketingVersion')
+    if not isinstance(version,str) or not re.fullmatch(r'[0-9]+(?:\.[0-9]+){0,2}',version):
+        raise ValueError('Selected iOS marketing version is missing or invalid.')
     expected=metadata['teamId']+'.'+metadata['bundleIdentifier']
     for key,value in [('CFBundleIdentifier',metadata['bundleIdentifier']),('CFBundleShortVersionString',metadata['marketingVersion']),('CFBundleVersion',metadata['buildNumber'])]:
         if info.get(key)!=value:raise ValueError(f'IPA {key} does not match the selected iOS build.')
@@ -51,5 +59,5 @@ def verify(root=ROOT):
 
 if __name__=='__main__':
     try:verify()
-    except (ValueError,RuntimeError,KeyError) as error:
+    except (ValueError,RuntimeError,KeyError,OSError,subprocess.TimeoutExpired) as error:
         print(str(error),file=sys.stderr);sys.exit(1)

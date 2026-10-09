@@ -1,10 +1,11 @@
 {
-  "testsRun": 6,
+  "testsRun": 22,
   "errors": 0,
   "failures": 0,
   "yamlSchema": "https://codemagic.io/codemagic-schema.json",
   "marketingVersion": "2.1.2",
   "minimumBuild": 25,
+  "historyFormat": "raw Apple JSON collections with validated pagination",
   "androidChanged": false,
   "realIpaVerified": false,
   "appleUploadConfirmed": false,
