@@ -26,7 +26,15 @@ class ConfigurationChecks(unittest.TestCase):
     def test_yaml_schema_and_preserved_validation(self):
         new=yaml.safe_load((ROOT/'codemagic.yaml').read_text(encoding='utf-8'))
         jsonschema.validate(new,official_schema())
-        validation=json.dumps(new['workflows']['ios-212-validation'],sort_keys=True).encode()
+        workflow=dict(new['workflows']['ios-212-validation'])
+        additions=[s for s in workflow['scripts'] if s['name']=='Verify embedded interface and iOS resource handler']
+        self.assertEqual(len(additions),1)
+        self.assertIn('python3 ios/scripts/validate_web_bundle.py',additions[0]['script'])
+        self.assertIn('python3 qa-tools/test-ios-resource-handler-20261011.py',additions[0]['script'])
+        workflow['scripts']=[s for s in workflow['scripts'] if s not in additions]
+        self.assertIn('qa-tools/test-ios-resource-handler-20261011-results.json',workflow['artifacts'])
+        workflow['artifacts']=[a for a in workflow['artifacts'] if a!='qa-tools/test-ios-resource-handler-20261011-results.json']
+        validation=json.dumps(workflow,sort_keys=True).encode()
         self.assertEqual(hashlib.sha256(validation).hexdigest(),'c2daa0187512948c014b3f3d5750517f7c6ee73f48f750e076bb3f1a2155feba')
         archive=new['workflows']['ios-212-archive']
         self.assertEqual(archive['integrations']['app_store_connect'],'Abissa-Mobile-Apple')
@@ -39,12 +47,12 @@ class ConfigurationChecks(unittest.TestCase):
 
     def test_versions_entitlements_and_android_unchanged(self):
         text=(ROOT/'ios/Config/Shared.xcconfig').read_text(encoding='utf-8')
-        self.assertIn('MARKETING_VERSION = 2.1.2',text);self.assertIn('CURRENT_PROJECT_VERSION = 25',text);self.assertIn('DEVELOPMENT_TEAM = XY97926U94',text)
+        self.assertIn('MARKETING_VERSION = 2.1.2',text);self.assertIn('CURRENT_PROJECT_VERSION = 30',text);self.assertIn('DEVELOPMENT_TEAM = XY97926U94',text)
         info=plistlib.loads((ROOT/'ios/AbissaMobile/Info.plist').read_bytes())
         self.assertEqual(info['CFBundleShortVersionString'],'$(MARKETING_VERSION)');self.assertEqual(info['CFBundleVersion'],'$(CURRENT_PROJECT_VERSION)')
         ent=plistlib.loads((ROOT/'ios/AbissaMobile/AbissaMobile.entitlements').read_bytes())
         self.assertEqual(ent['aps-environment'],'$(APNS_ENVIRONMENT)');self.assertIn('applinks:abissamobile.com',ent['com.apple.developer.associated-domains'])
-        self.assertEqual(hashlib.sha256((ROOT/'app/build.gradle').read_bytes()).hexdigest(),'42a51347a04608ef8f6c6227f287ac6c00fc19fd1c22bda62f1b00b409659002')
+        self.assertEqual(hashlib.sha256((ROOT/'app/build.gradle').read_bytes()).hexdigest(),'7171971296eaaeb12562f981173334617fc87887fc1098b18d4c44d7863def6d')
         self.assertIn('*.p8',(ROOT/'.gitignore').read_text())
 
 class BuildSelectionChecks(unittest.TestCase):
@@ -218,7 +226,7 @@ class AppleResponseChecks(unittest.TestCase):
             config.write_bytes((ROOT/'ios/Config/Shared.xcconfig').read_bytes())
             with patch.dict(prepare.os.environ,{'BUILD_NUMBER':'3'}):
                 result=prepare.prepare(root,get_json=Mock(side_effect=[page([APP]),page([],total=0),page([VERSION])]))
-            self.assertEqual(result['buildNumber'],'28');self.assertIsNone(result['latestAppleBuildNumber'])
+            self.assertEqual(result['buildNumber'],'30');self.assertIsNone(result['latestAppleBuildNumber'])
             self.assertTrue(result['appleHistoryComplete']);self.assertEqual(result['appleBuildCount'],0)
             self.assertFalse(result['publicVersionAligned']);self.assertEqual(result['appStoreVersions'],['1.0'])
             self.assertFalse(result['uploadConfirmed']);self.assertEqual(result['marketingVersion'],'2.1.2')
@@ -245,7 +253,7 @@ if __name__=='__main__':
     suite=unittest.defaultTestLoader.loadTestsFromModule(sys.modules[__name__])
     result=unittest.TextTestRunner(verbosity=2).run(suite)
     report={'testsRun':result.testsRun,'errors':len(result.errors),'failures':len(result.failures),
-            'yamlSchema':'https://codemagic.io/codemagic-schema.json','marketingVersion':'2.1.2','minimumBuild':25,
+            'yamlSchema':'https://codemagic.io/codemagic-schema.json','marketingVersion':'2.1.2','minimumBuild':30,
             'historyFormat':'raw Apple JSON collections with validated pagination',
             'androidChanged':False,'realIpaVerified':False,'appleUploadConfirmed':False,'remoteCommitConfirmed':False}
     (ROOT/'qa-tools/test-app-store-connect-212-results.json').write_text(json.dumps(report,indent=2),encoding='utf-8')

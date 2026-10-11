@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "Embedded UI boots with remote requests blocked",
+    "20 home menu entries rendered",
+    "Actual Swift readiness expression succeeds",
+    "Six native profile services retained",
+    "No uncaught JavaScript errors"
+  ],
+  "errors": [],
+  "engine": "Chrome",
+  "embeddedSchemeMappedToLocalHttp": true,
+  "actualIosWebKitExecuted": false,
+  "physicalIphoneVerified": false
+}

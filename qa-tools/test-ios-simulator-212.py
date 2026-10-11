@@ -19,17 +19,35 @@ small=next((d for d in reversed(phones) if 'SE' in d['name'] or 'mini' in d['nam
 recent=phones[-1];tablet=pads[-1]
 checks=[];errors=[]
 for label,device in [('petit-iphone',small),('iphone-recent',recent),('ipad',tablet)]:
-    udid=None
+    udid=None;startup_log=''
     try:
         udid=run('create','ABISSA 212 '+label,device['identifier'],runtime['identifier']).strip()
         run('boot',udid);run('bootstatus',udid,'-b');run('install',udid,str(app))
         result=run('launch',udid,'ci.abissa');assert 'ci.abissa:' in result,result
-        time.sleep(12)
+        # Require the WKWebView DOM/menu readiness marker; a surviving process
+        # can otherwise be stuck behind the startup error alert indefinitely.
+        startup_log = ''
+        for attempt in range(20):
+            startup_log = run('spawn',udid,'log','show','--last','2m','--style','compact',
+                              '--predicate','subsystem == "ci.abissa" AND category == "Startup"')
+            if 'ABISSA_STARTUP_FAILED' in startup_log or 'ABISSA_RESOURCE_FAILED' in startup_log:
+                raise AssertionError('Embedded interface failed; see startup log artifact.')
+            if 'ABISSA_STARTUP_READY' in startup_log:
+                break
+            time.sleep(2)
+        (out/(label+'-startup.log')).write_text(startup_log,encoding='utf-8')
+        assert 'ABISSA_STARTUP_READY' in startup_log, 'Native process started, but rendered menu was not confirmed.'
+        time.sleep(7) # Let the existing splash finish before capturing the UI.
         # A surviving process distinguishes a launch from an immediate native crash.
         processes=run('spawn',udid,'launchctl','list');assert 'ci.abissa' in processes, processes
         run('io',udid,'screenshot',str(out/(label+'.png')))
-        checks.append({'device':device['name'],'runtime':runtime['version'],'check':'Install, launch and surviving process; screenshot captured'})
-    except Exception as e: errors.append({'device':device['name'],'error':str(e)})
+        checks.append({'device':device['name'],'runtime':runtime['version'],'check':'Install, launch, rendered WKWebView menu confirmed, surviving process; screenshot captured'})
+    except Exception as e:
+        if 'startup_log' in locals(): (out/(label+'-startup.log')).write_text(startup_log,encoding='utf-8')
+        if udid:
+            try: run('io',udid,'screenshot',str(out/(label+'-failed.png')))
+            except subprocess.CalledProcessError: pass
+        errors.append({'device':device['name'],'error':str(e)})
     finally:
         if udid:
             try:run('shutdown',udid)

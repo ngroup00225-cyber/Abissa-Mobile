@@ -4,12 +4,17 @@ import SafariServices
 import UserNotifications
 import UniformTypeIdentifiers
 import CoreLocation
+import os
 
 // Only the bundled application has a native bridge. External sites use SFSafariViewController.
 final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler, WKDownloadDelegate, CLLocationManagerDelegate {
     private var webView: WKWebView!
     private var pendingURL: URL?
     private var ready = false
+    private let startupLogger = Logger(subsystem: "ci.abissa", category: "Startup")
+    private let entryURL = URL(string: "abissa-resource://app/abissa_mobile.html")!
+    private var startupAlertVisible = false
+    private var processRecoveryAttempted = false
     private var downloadURLs: [ObjectIdentifier: URL] = [:]
     private var nativeCompanion: NativeCompanion!
     private var pendingToken: (String, String)?
@@ -53,18 +58,60 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
             webView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         nativeCompanion.startNetwork(in: view)
-        webView.load(URLRequest(url: URL(string: "abissa-resource://app/abissa_mobile.html")!))
+        loadBundledApplication()
         locationManager.delegate = self
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        ready = true
-        nativeCompanion.ready()
-        if let url = pendingURL { pendingURL = nil; openContent(url) }
-        if let pair = pendingToken { pendingToken = nil; deliverDeviceToken(pair.0, environment: pair.1) }
+        // A living native process and didFinish alone do not prove that the UI booted.
+        webView.evaluateJavaScript("document.readyState === 'complete' && document.querySelectorAll('#menuGrid .tile').length > 0 && typeof goTo === 'function' && !!window.AbissaNative212") { [weak self] result, error in
+            guard let self = self else { return }
+            guard error == nil, result as? Bool == true else {
+                self.showStartupFailure(error ?? URLError(.cannotParseResponse), stage: "interface")
+                return
+            }
+            self.ready = true
+            self.startupLogger.notice("ABISSA_STARTUP_READY")
+            self.nativeCompanion.ready()
+            if let url = self.pendingURL { self.pendingURL = nil; self.openContent(url) }
+            if let pair = self.pendingToken { self.pendingToken = nil; self.deliverDeviceToken(pair.0, environment: pair.1) }
+        }
     }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        showStartupFailure(error, stage: "provisional")
+    }
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        showStartupFailure(error, stage: "navigation")
+    }
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        ready = false
+        startupLogger.error("ABISSA_WEB_PROCESS_TERMINATED")
+        if !processRecoveryAttempted {
+            processRecoveryAttempted = true
+            loadBundledApplication()
+        } else { showStartupFailure(URLError(.cannotLoadFromNetwork), stage: "web-process") }
+    }
+    private func loadBundledApplication() {
+        ready = false
+        startupLogger.notice("ABISSA_STARTUP_LOADING")
+        webView.load(URLRequest(url: entryURL, cachePolicy: .reloadIgnoringLocalCacheData))
+    }
+    private func showStartupFailure(_ error: Error, stage: String) {
+        let failure = error as NSError
+        if failure.domain == NSURLErrorDomain && failure.code == NSURLErrorCancelled { return }
+        ready = false
+        startupLogger.error("ABISSA_STARTUP_FAILED stage=\(stage, privacy: .public) domain=\(failure.domain, privacy: .public) code=\(failure.code)")
+        guard !startupAlertVisible else { return }
+        startupAlertVisible = true
         let alert = UIAlertController(title: "ABISSA MOBILE", message: "L’application n’a pas pu démarrer. Réessayez.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Réessayer", style: .default) { [weak self] _ in self?.webView.reload() })
+        alert.addAction(UIAlertAction(title: "Réessayer", style: .default) { [weak self] _ in
+            self?.startupAlertVisible = false
+            self?.processRecoveryAttempted = false
+            self?.loadBundledApplication()
+        })
+        alert.addAction(UIAlertAction(title: "Ouvrir le site", style: .default) { [weak self] _ in
+            self?.startupAlertVisible = false
+            self?.present(SFSafariViewController(url: URL(string: "https://abissamobile.com/appli/mobile.html")!), animated: true)
+        })
         present(alert, animated: true)
     }
     func openContent(_ url: URL) {
@@ -184,15 +231,3 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
     }
 }
 
-final class BundleResourceHandler: NSObject, WKURLSchemeHandler {
-    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
-        guard let url = urlSchemeTask.request.url, url.host == "app", let root = Bundle.main.resourceURL?.appendingPathComponent("Web"), let path = url.path.removingPercentEncoding else { urlSchemeTask.didFailWithError(URLError(.badURL)); return }
-        let file = root.appendingPathComponent(path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))).standardizedFileURL
-        guard file.path.hasPrefix(root.path + "/"), let data = try? Data(contentsOf: file) else { urlSchemeTask.didFailWithError(URLError(.fileDoesNotExist)); return }
-        let mime: String
-        if file.pathExtension == "html" { mime = "text/html" } else if file.pathExtension == "js" { mime = "application/javascript" } else if file.pathExtension == "css" { mime = "text/css" } else { mime = UTType(filenameExtension: file.pathExtension)?.preferredMIMEType ?? "application/octet-stream" }
-        guard let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: "HTTP/1.1", headerFields: ["Content-Type": mime, "Access-Control-Allow-Origin": "*", "Cache-Control": "max-age=86400"]) else { urlSchemeTask.didFailWithError(URLError(.badServerResponse)); return }
-        urlSchemeTask.didReceive(response); urlSchemeTask.didReceive(data); urlSchemeTask.didFinish()
-    }
-    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {}
-}

@@ -4,7 +4,7 @@
   "failures": 0,
   "yamlSchema": "https://codemagic.io/codemagic-schema.json",
   "marketingVersion": "2.1.2",
-  "minimumBuild": 25,
+  "minimumBuild": 30,
   "historyFormat": "raw Apple JSON collections with validated pagination",
   "androidChanged": false,
   "realIpaVerified": false,

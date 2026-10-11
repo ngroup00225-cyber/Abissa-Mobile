@@ -1,0 +1,15 @@
+{
+  "testsRun": 11,
+  "errors": 0,
+  "failures": 0,
+  "embeddedWeb": {
+    "files": 134,
+    "localReferences": 56,
+    "htmlBytes": 2708459,
+    "resourceManifestSha256": "6e8c3ca44392345953e3414fe302716fcbf92d3e5290d30d209ef186b35b256b"
+  },
+  "swiftTestsExecutedLocally": false,
+  "xcodeBuildExecutedLocally": false,
+  "physicalIphoneVerified": false,
+  "appleUploadConfirmed": false
+}

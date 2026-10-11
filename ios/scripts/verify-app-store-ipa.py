@@ -1,6 +1,8 @@
 """Check the produced IPA before Codemagic publishing; this does not claim Apple acceptance."""
 from pathlib import Path
 import json,plistlib,re,subprocess,sys,tempfile,zipfile
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from validate_web_bundle import validate_web_bundle
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -52,6 +54,11 @@ def verify(root=ROOT):
         profile=plistlib.loads(checked('security','cms','-D','-i',str(app/'embedded.mobileprovision')).stdout)
         info=plistlib.loads((app/'Info.plist').read_bytes())
         verify_identity(info,entitlements,profile,metadata)
+        bundled = validate_web_bundle(app/'Web')
+        source = validate_web_bundle(root/'ios/AbissaMobile/Web')
+        if bundled != source:
+            raise ValueError('IPA embedded Web resources differ from the validated build sources.')
+        metadata['embeddedWeb'] = bundled
     metadata['ipaValidated']=True
     metadata['ipaPath']=str(ipas[0].relative_to(root))
     (root/'ios/ci-build-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n',encoding='utf-8')

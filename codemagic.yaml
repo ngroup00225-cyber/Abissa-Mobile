@@ -9,6 +9,10 @@ workflows:
     scripts:
       - name: Bundle public interface
         script: python3 qa-tools/bundle-mobile.py
+      - name: Verify embedded interface and iOS resource handler
+        script: |
+          python3 ios/scripts/validate_web_bundle.py
+          python3 qa-tools/test-ios-resource-handler-20261011.py
       - name: Validate property lists
         script: |
           plutil -lint ios/AbissaMobile/Info.plist ios/AbissaMobile/PrivacyInfo.xcprivacy ios/AbissaMobile/AbissaMobile.entitlements
@@ -22,6 +26,7 @@ workflows:
       - ios/build-validation.log
       - ios/build/Build/Products/Debug-iphonesimulator/*.app
       - ios/simulator-qa-212/**
+      - qa-tools/test-ios-resource-handler-20261011-results.json
   ios-212-archive:
     name: ABISSA 2.1.2 - signed archive and App Store Connect upload
     instance_type: mac_mini_m2
@@ -36,6 +41,10 @@ workflows:
     scripts:
       - name: Bundle public interface
         script: python3 qa-tools/bundle-mobile.py
+      - name: Verify embedded interface and iOS resource handler
+        script: |
+          python3 ios/scripts/validate_web_bundle.py
+          python3 qa-tools/test-ios-resource-handler-20261011.py
       - name: Apply existing signing profiles
         script: xcode-project use-profiles
       - name: Select next iOS build from Apple history
@@ -50,6 +59,7 @@ workflows:
       - /tmp/xcodebuild_logs/*.log
       - ~/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
       - ios/ci-build-metadata.json
+      - qa-tools/test-ios-resource-handler-20261011-results.json
     publishing:
       app_store_connect:
         auth: integration
