@@ -2,24 +2,95 @@ plugins {
     id "com.android.application"
 }
 
+// Only public identifiers are defaults. Passwords are supplied by the local launcher or CI.
+def playKeystore = rootProject.file(System.getenv("ABISSA_UPLOAD_KEYSTORE") ?: ".release-signing/abissa-mobile-play-upload-20261011.jks")
+def playAlias = System.getenv("ABISSA_UPLOAD_KEY_ALIAS") ?: "abissa-play-upload-20261011"
+def playStorePassword = System.getenv("ABISSA_UPLOAD_STORE_PASSWORD")
+def playKeyPassword = System.getenv("ABISSA_UPLOAD_KEY_PASSWORD") ?: playStorePassword
+def playExpectedSha256 = (System.getenv("ABISSA_UPLOAD_CERT_SHA256") ?: "704da9712d6a5a9d992997f653ef9ce0896ce5ea252827335ea8c083134f3021").replace(":", "").toLowerCase(java.util.Locale.ROOT)
+def releaseCodeText = System.getenv("ABISSA_VERSION_CODE") ?: "27"
+if (!(releaseCodeText ==~ /[1-9][0-9]*/) || releaseCodeText.toLong() <= 26 || releaseCodeText.toLong() > 2100000000L) {
+    throw new GradleException("ABISSA_VERSION_CODE must be an integer greater than 26 and no greater than 2100000000. Also check the highest code in Play Console.")
+}
+
 android {
     namespace "com.abissa.mobile"
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.abissa.mobile"
-        minSdk 23
+        applicationId "ci.abissa"
+        minSdk 24
         targetSdk 36
-        versionCode 24
+        versionCode releaseCodeText.toInteger()
         versionName "2.1.2"
+    }
+
+    signingConfigs {
+        playRelease {
+            storeFile playKeystore
+            storePassword playStorePassword
+            keyAlias playAlias
+            keyPassword playKeyPassword
+            storeType "PKCS12"
+        }
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.playRelease
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 }
 
+// Play automatic protection rejects bundles supporting API levels below 24.
+if (android.defaultConfig.minSdkVersion.apiLevel < 24) {
+    throw new GradleException("Play automatic protection requires minSdk 24 or higher.")
+}
+if (android.defaultConfig.applicationId != "ci.abissa") {
+    throw new GradleException("The existing Play Console application requires applicationId ci.abissa.")
+}
+if (android.defaultConfig.targetSdkVersion.apiLevel < 36) {
+    throw new GradleException("Current Google Play submissions require targetSdk 36 or higher.")
+}
+
 dependencies { implementation files("libs/zxing-core-3.5.3.jar") }
+
+def checkPlaySigning = tasks.register("validateAbissaReleaseSigning") {
+    group = "verification"
+    description = "Reject missing, unexpected, expired or Android Debug release signing identities."
+    doLast {
+        if (!playStorePassword || !playKeyPassword || !playKeystore.isFile()) {
+            throw new GradleException("Release signing is required. Use qa-tools/build-play-release-20261011.py locally, or supply ABISSA_UPLOAD_KEYSTORE, ABISSA_UPLOAD_KEY_ALIAS, ABISSA_UPLOAD_STORE_PASSWORD and ABISSA_UPLOAD_KEY_PASSWORD in private CI variables.")
+        }
+        if (!(playExpectedSha256 ==~ /[0-9a-f]{64}/)) {
+            throw new GradleException("ABISSA_UPLOAD_CERT_SHA256 must identify the authorized public upload certificate.")
+        }
+        def keyStore = java.security.KeyStore.getInstance("PKCS12")
+        playKeystore.withInputStream { input -> keyStore.load(input, playStorePassword.toCharArray()) }
+        def certificate = keyStore.getCertificate(playAlias)
+        if (!(certificate instanceof java.security.cert.X509Certificate) || !keyStore.isKeyEntry(playAlias)) {
+            throw new GradleException("The authorized private signing entry is missing.")
+        }
+        certificate.checkValidity()
+        def digest = java.security.MessageDigest.getInstance("SHA-256").digest(certificate.encoded).encodeHex().toString()
+        if (digest != playExpectedSha256 || certificate.subjectX500Principal.name.toLowerCase(java.util.Locale.ROOT).contains("cn=android debug")) {
+            throw new GradleException("Release certificate is unexpected or is an Android Debug certificate; build stopped.")
+        }
+        if (!(certificate.publicKey instanceof java.security.interfaces.RSAPublicKey) || certificate.publicKey.modulus.bitLength() < 2048) {
+            throw new GradleException("Release signing requires an authorized RSA key of at least 2048 bits.")
+        }
+        if (!keyStore.getKey(playAlias, playKeyPassword.toCharArray())) {
+            throw new GradleException("The private signing key cannot be unlocked.")
+        }
+        logger.lifecycle("ABISSA Release certificate SHA-256: " + digest)
+    }
+}
+
+tasks.configureEach {
+    if (name in ["validateSigningRelease", "packageRelease", "signReleaseBundle", "bundleRelease", "assembleRelease"]) {
+        dependsOn(checkPlaySigning)
+    }
+}

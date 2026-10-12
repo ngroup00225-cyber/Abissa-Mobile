@@ -1,4 +1,24 @@
-# ABISSA MOBILE 2.1.2 — build 24, préparation des stores
+# Stabilisation du 12 octobre 2026
+
+Sources corrigees pour import manuel sur fix/ios-demarrage. Lire RAPPORT_STABILISATION_20261012.md et IMPORTER_GITHUB_STABILISATION_20261012.md. Commencer par qa-quick puis ios-212-validation ; aucun transfert automatique vers les stores. Android conserve ci.abissa/build27 et la cle existante. Validation WebKit et appareils physiques encore requise.
+
+# ABISSA MOBILE 2.1.2 — Play Store ci.abissa / build27
+
+Livraison actuelle : `00 - ABISSA FINAL/Android-2.1.2-ci.abissa-Play-2026-10-12/Abissa-Mobile-ci.abissa-v2.1.2-build27-release.aab`. Package d'installation **ci.abissa**, namespace Java com.abissa.mobile, SDK minimal24, cible36. Les activités et services utilisent leurs noms complets et À propos lit la version réelle. Le build27 remplace les builds25 et26 refusés. Lire `NOTICE_EDITEUR_PLAYSTORE_20261012.md` et `RAPPORT_FINAL_PLAY_CI_ABISSA_20261012.md` ; transmettre le dossier final à la personne qui publie depuis son compte Play.
+
+Compilation : `python qa-tools/build-play-release-20261011.py` ; contrôles : `python qa-tools/test-play-release-20261011.py` puis `python qa-tools/test-play-ci-abissa-20261012.py` sur l'émulateur QA Android16 ; livraison : `python qa-tools/package-play-release-20261011.py`. La clé d'importation est conservée. L'historique du compte et le certificat attendu restent à vérifier par le responsable Play. Le changement de package ne migre pas les données locales des anciens APK com.abissa.mobile.
+
+## Historique — correction SDK code26
+
+Correction du 12 octobre 2026 : utiliser `00 - ABISSA FINAL/Android-2.1.2-Release-Play-2026-10-12/Abissa-Mobile-v2.1.2-build26-release.aab`. Le build25 a été refusé car son SDK minimal était 23 ; il est remplacé par le build26 (Android 7.0 minimum / API 24, cible API 36). La même clé de publication est réutilisée. Le script de compilation lit désormais les versions dans `app/build.gradle`, rejette un SDK minimal inférieur à 24 et contrôle le manifeste du bundle signé. Lire `RAPPORT_SDK_PLAY_20261012.md`.
+
+Compilation Play locale : `python qa-tools/build-play-release-20261011.py` ; vérification : `python qa-tools/test-play-release-20261011.py` ; livraison : `python qa-tools/package-play-release-20261011.py`. L'ancien point d'entrée `qa-tools/build-playstore-212.py` appelle ce même constructeur actuel. Dans un environnement Gradle complet : `qa-tools/build-gradle-play-release.ps1`. Les anciens scripts APK et les livraisons datées ci-dessous sont historiques.
+
+## Historique — correction de signature code25
+
+Correction Android du 11 octobre 2026 : AAB Release signé avec un certificat de publication, vérifié par jarsigner et bundletool. Utiliser `qa-tools/build-play-release-20261011.py` sur la machine locale ou `qa-tools/build-gradle-play-release.ps1` avec un environnement Gradle complet. La clé privée reste hors dépôt ; le certificat public est `store-assets/abissa-play-upload-20261011-certificate.pem`. Lire `RAPPORT_SIGNATURE_PLAY_20261011.md` : l’enregistrement de la clé d’importation et le code25 doivent être confirmés dans Play Console. Les mises à jour des APK historiques ne sont pas garanties par ce nouveau certificat d’envoi. L’AAB `signe-historique` a été refusé et ne doit plus être importé. Aucune modification iOS ni publication automatique pour ce correctif.
+
+## Préparation précédente — build 24
 
 La barre native supplémentaire « ACCUEIL, SCANNER, FAVORIS, PLUS » est supprimée. Scanner, favoris, notifications, téléchargements, préférences et À propos sont regroupés dans **Profil → Services de l’application**. La navigation principale existante reste disponible.
 

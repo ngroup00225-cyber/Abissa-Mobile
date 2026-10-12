@@ -1,14 +1,63 @@
-# Manual workflow start. Archive uploads to App Store Connect; beta/public review stays manual.
+# Manual workflows only. Build artifacts are never uploaded to a store automatically.
 workflows:
+  qa-quick:
+    name: ABISSA - fast packaging and regression checks
+    instance_type: linux_x2
+    max_build_duration: 15
+    environment:
+      node: 22
+    cache:
+      cache_paths:
+        - $HOME/.npm
+        - $HOME/.cache/ms-playwright
+    scripts:
+      - name: Bundle interface
+        script: python3 qa-tools/bundle-mobile.py
+      - name: Check resources and release contracts
+        script: python3 qa-tools/check-project.py
+      - name: Install locked test dependencies
+        script: |
+          npm ci --prefix qa-tools --ignore-scripts
+          cd qa-tools && npx playwright install --with-deps chromium
+      - name: Offline navigation and responsive layouts
+        script: CI=true node qa-tools/test-audit-20261012.cjs
+    artifacts:
+      - qa-tools/audit-20261012/portable-tests.json
+      - qa-tools/audit-20261012/after/**
+  android-validation:
+    name: ABISSA - Android Gradle validation (no store upload)
+    instance_type: linux_x2
+    max_build_duration: 30
+    environment:
+      java: 17
+    cache:
+      cache_paths:
+        - $HOME/.gradle/caches
+        - $HOME/.gradle/wrapper
+    scripts:
+      - name: Bundle and fast checks
+        script: |
+          python3 qa-tools/bundle-mobile.py
+          python3 qa-tools/check-project.py
+      - name: Gradle lint and debug build
+        script: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:lintDebug :app:assembleDebug
+    artifacts:
+      - app/build/reports/**
+      - app/build/outputs/apk/debug/*.apk
+      - qa-tools/audit-20261012/portable-tests.json
   ios-212-validation:
     name: ABISSA 2.1.2 - iOS simulator validation
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
-      xcode: latest
+      xcode: "26.6"
     scripts:
       - name: Bundle public interface
         script: python3 qa-tools/bundle-mobile.py
+      - name: Fast regression gate
+        script: python3 qa-tools/check-project.py
       - name: Verify embedded interface and iOS resource handler
         script: |
           python3 ios/scripts/validate_web_bundle.py
@@ -23,24 +72,27 @@ workflows:
       - name: Start small iPhone, recent iPhone and iPad
         script: python3 qa-tools/test-ios-simulator-212.py
     artifacts:
+      - qa-tools/audit-20261012/portable-tests.json
       - ios/build-validation.log
       - ios/build/Build/Products/Debug-iphonesimulator/*.app
       - ios/simulator-qa-212/**
       - qa-tools/test-ios-resource-handler-20261011-results.json
   ios-212-archive:
-    name: ABISSA 2.1.2 - signed archive and App Store Connect upload
+    name: ABISSA 2.1.2 - signed archive (manual upload)
     instance_type: mac_mini_m2
     max_build_duration: 90
     integrations:
       app_store_connect: Abissa-Mobile-Apple
     environment:
-      xcode: latest
+      xcode: "26.6"
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ci.abissa
     scripts:
       - name: Bundle public interface
         script: python3 qa-tools/bundle-mobile.py
+      - name: Fast regression gate
+        script: python3 qa-tools/check-project.py
       - name: Verify embedded interface and iOS resource handler
         script: |
           python3 ios/scripts/validate_web_bundle.py
@@ -55,13 +107,9 @@ workflows:
       - name: Verify IPA identity and build before upload
         script: python3 ios/scripts/verify-app-store-ipa.py
     artifacts:
+      - qa-tools/audit-20261012/portable-tests.json
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - ~/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
       - ios/ci-build-metadata.json
       - qa-tools/test-ios-resource-handler-20261011-results.json
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: false
-        submit_to_app_store: false

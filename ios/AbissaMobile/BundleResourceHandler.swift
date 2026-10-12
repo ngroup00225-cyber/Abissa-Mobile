@@ -8,6 +8,9 @@ import os
 final class BundleResourceHandler: NSObject, WKURLSchemeHandler {
     private let root: URL?
     private let logger = Logger(subsystem: "ci.abissa", category: "Startup")
+    private(set) var failedResourceCount = 0
+
+    func resetDiagnostics() { failedResourceCount = 0 }
 
     init(root: URL? = Bundle.main.resourceURL?.appendingPathComponent("Web", isDirectory: true)) {
         self.root = root
@@ -42,6 +45,9 @@ final class BundleResourceHandler: NSObject, WKURLSchemeHandler {
     }
 
     func webView(_ webView: WKWebView, start task: WKURLSchemeTask) {
+        // Paths only: query strings can contain personal data or access tokens.
+        let path = task.request.url?.path ?? "<missing-url>"
+        logger.notice("ABISSA_RESOURCE_REQUEST path=\(path, privacy: .public)")
         do {
             guard let url = task.request.url, let root = root else { throw URLError(.fileDoesNotExist) }
             let file = try Self.resourceURL(for: url, root: root)
@@ -60,9 +66,11 @@ final class BundleResourceHandler: NSObject, WKURLSchemeHandler {
             task.didReceive(response)
             task.didReceive(data)
             task.didFinish()
+            logger.notice("ABISSA_RESOURCE_OK path=\(path, privacy: .public) bytes=\(data.count)")
         } catch {
+            failedResourceCount += 1
             let failure = error as NSError
-            logger.error("ABISSA_RESOURCE_FAILED domain=\(failure.domain, privacy: .public) code=\(failure.code)")
+            logger.error("ABISSA_RESOURCE_FAILED path=\(path, privacy: .public) domain=\(failure.domain, privacy: .public) code=\(failure.code)")
             task.didFailWithError(error)
         }
     }

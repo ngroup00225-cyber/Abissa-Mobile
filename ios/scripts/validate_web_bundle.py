@@ -4,6 +4,7 @@ from html.parser import HTMLParser
 from urllib.parse import urlsplit, unquote
 import hashlib
 import json
+import os
 import re
 import sys
 
@@ -30,22 +31,40 @@ def validate_web_bundle(folder):
             raise ValueError('Embedded UI is incomplete: ' + marker)
     parser = References()
     parser.feed(html)
+    markup = re.sub(r'<script\b[^>]*>.*?</script\s*>', '', html, flags=re.S | re.I)
+    parser.urls.update(re.findall(r'url\(\s*[\"\']?([^\s\"\')]+)', markup))
     parser.urls.update(re.findall(r'abissa-resource://app/[^\s\"\'<>\\)]+', html))
     references = set()
-    for value in parser.urls:
+    pending = [(value, folder) for value in parser.urls if '${' not in value]
+    while pending:
+        value, base = pending.pop()
         parts = urlsplit(value)
         if parts.scheme == 'abissa-resource':
             if parts.netloc != 'app':
                 raise ValueError('Unexpected embedded resource origin.')
         elif parts.scheme or parts.netloc or value.startswith('#'):
             continue
-        path = unquote(parts.path).lstrip('/')
+        path = unquote(parts.path)
         if not path:
             continue
-        resolved = (folder / path).resolve()
+        candidate = (folder if path.startswith('/') or parts.scheme else base) / path.lstrip('/')
+        requested = Path(os.path.normpath(candidate))
+        resolved = candidate.resolve()
         if not resolved.is_relative_to(folder) or not resolved.is_file():
             raise ValueError('Missing or unsafe embedded resource: ' + path)
-        references.add(path)
+        relative = requested.relative_to(folder)
+        cursor = folder
+        for component in relative.parts:
+            if component not in {p.name for p in cursor.iterdir()}:
+                raise ValueError('Embedded resource case mismatch: ' + path)
+            cursor = cursor / component
+        name = relative.as_posix()
+        if name in references:
+            continue
+        references.add(name)
+        if resolved.suffix == '.css':
+            pending.extend((url, resolved.parent) for url in re.findall(
+                r'url\(\s*[\"\']?([^\s\"\')]+)', resolved.read_text(encoding='utf-8')))
     files = []
     for file in sorted(folder.rglob('*')):
         if file.is_file():

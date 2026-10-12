@@ -211,6 +211,14 @@ public class MainActivity extends Activity {
             if (request.isForMainFrame() && isBundledPage(uri)) {
                 return bundledResponse("abissa_mobile.html", "text/html");
             }
+            // Shared CSS keeps its original assets/ base after inlining.
+            if (NativeFeatures.official(uri) && uri.getPath() != null
+                    && uri.getPath().matches("/appli/assets/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_.-]+\\.(?:png|jpg|jpeg|webp|svg|woff2|ttf|wav|js|json|css)")) {
+                String path = uri.getPath().substring("/appli/".length());
+                String ext = android.webkit.MimeTypeMap.getFileExtensionFromUrl(uri.toString());
+                String mime = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(ext);
+                return bundledResponse(path, mime == null ? "application/octet-stream" : mime);
+            }
             if ("https".equals(uri.getScheme()) && "abissamobile.com".equals(uri.getHost())
                     && uri.getPath() != null && uri.getPath().matches("/appli/bundled-media/[a-f0-9]{64}\\.(png|webp|svg|wav|woff2)")) {
                 String name = uri.getLastPathSegment();

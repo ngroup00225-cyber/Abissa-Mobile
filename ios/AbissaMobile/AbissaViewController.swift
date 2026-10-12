@@ -11,6 +11,8 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
     private var webView: WKWebView!
     private var pendingURL: URL?
     private var ready = false
+    private let resourceHandler = BundleResourceHandler()
+    private var startupDeadline: DispatchWorkItem?
     private let startupLogger = Logger(subsystem: "ci.abissa", category: "Startup")
     private let entryURL = URL(string: "abissa-resource://app/abissa_mobile.html")!
     private var startupAlertVisible = false
@@ -27,7 +29,7 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
         config.websiteDataStore = .default()
         config.allowsInlineMediaPlayback = true
         config.mediaTypesRequiringUserActionForPlayback = [.audio, .video]
-        config.setURLSchemeHandler(BundleResourceHandler(), forURLScheme: "abissa-resource")
+        config.setURLSchemeHandler(resourceHandler, forURLScheme: "abissa-resource")
         config.userContentController.add(self, name: "abissa")
         let bridge = """
         window.Android = {
@@ -65,11 +67,12 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
         // A living native process and didFinish alone do not prove that the UI booted.
         webView.evaluateJavaScript("document.readyState === 'complete' && document.querySelectorAll('#menuGrid .tile').length > 0 && typeof goTo === 'function' && !!window.AbissaNative212") { [weak self] result, error in
             guard let self = self else { return }
-            guard error == nil, result as? Bool == true else {
+            guard error == nil, result as? Bool == true, self.resourceHandler.failedResourceCount == 0 else {
                 self.showStartupFailure(error ?? URLError(.cannotParseResponse), stage: "interface")
                 return
             }
             self.ready = true
+            self.startupDeadline?.cancel()
             self.startupLogger.notice("ABISSA_STARTUP_READY")
             self.nativeCompanion.ready()
             if let url = self.pendingURL { self.pendingURL = nil; self.openContent(url) }
@@ -92,13 +95,22 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
     }
     private func loadBundledApplication() {
         ready = false
+        startupDeadline?.cancel()
+        resourceHandler.resetDiagnostics()
         startupLogger.notice("ABISSA_STARTUP_LOADING")
         webView.load(URLRequest(url: entryURL, cachePolicy: .reloadIgnoringLocalCacheData))
+        let deadline = DispatchWorkItem { [weak self] in
+            guard let self = self, !self.ready else { return }
+            self.showStartupFailure(URLError(.timedOut), stage: "deadline")
+        }
+        startupDeadline = deadline
+        DispatchQueue.main.asyncAfter(deadline: .now() + 30, execute: deadline)
     }
     private func showStartupFailure(_ error: Error, stage: String) {
         let failure = error as NSError
         if failure.domain == NSURLErrorDomain && failure.code == NSURLErrorCancelled { return }
         ready = false
+        startupDeadline?.cancel()
         startupLogger.error("ABISSA_STARTUP_FAILED stage=\(stage, privacy: .public) domain=\(failure.domain, privacy: .public) code=\(failure.code)")
         guard !startupAlertVisible else { return }
         startupAlertVisible = true

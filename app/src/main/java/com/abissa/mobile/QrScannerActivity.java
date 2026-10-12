@@ -29,11 +29,28 @@ public final class QrScannerActivity extends Activity implements SurfaceHolder.C
     @Override public void onCreate(Bundle saved) {
         super.onCreate(saved);
         LinearLayout body = new LinearLayout(this); body.setOrientation(LinearLayout.VERTICAL);
+        body.setBackgroundColor(android.graphics.Color.WHITE);
+        if (android.os.Build.VERSION.SDK_INT >= 35) {
+            body.setOnApplyWindowInsetsListener((view, insets) -> {
+                android.graphics.Insets bars = insets.getInsets(
+                        android.view.WindowInsets.Type.systemBars()
+                        | android.view.WindowInsets.Type.displayCutout());
+                view.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+                android.view.WindowInsetsController controller = view.getWindowInsetsController();
+                if (controller != null) {
+                    int lightBars = android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                            | android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS;
+                    controller.setSystemBarsAppearance(lightBars, lightBars);
+                }
+                return insets;
+            });
+        }
         status = new TextView(this); status.setText("Cadrez un QR code. La vérification des accès nécessite un agent connecté.");
         status.setPadding(20,20,20,20); body.addView(status);
         preview = new SurfaceView(this); body.addView(preview,new LinearLayout.LayoutParams(-1,0,1));
         Button close = new Button(this); close.setText("Retour à Abissa"); close.setOnClickListener(v -> finish()); body.addView(close);
         setContentView(body); preview.getHolder().addCallback(this);
+        body.requestApplyInsets();
         if(checkSelfPermission(Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED)
             requestPermissions(new String[]{Manifest.permission.CAMERA},212);
     }
