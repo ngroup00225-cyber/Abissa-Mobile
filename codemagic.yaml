@@ -49,18 +49,28 @@ workflows:
       - app/build/outputs/apk/debug/*.apk
       - qa-tools/audit-20261012/portable-tests.json
   ios-212-validation:
-    name: ABISSA 2.1.2 - iOS simulator validation
+    name: ABISSA - iOS iPhone validation
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
-      xcode: "26.6"
+      xcode: "27.0"
     scripts:
-      - name: Bundle public interface
-        script: python3 qa-tools/bundle-mobile.py
-      - name: Fast regression gate
-        script: python3 qa-tools/check-project.py
+      - name: Verify iOS branch and toolchain
+        script: |
+          set -euo pipefail
+          test "${CM_BRANCH:-}" = "fix/ios-demarrage"
+          xcodebuild -version
+          xcrun swift --version
+          python3 --version
+          xcrun simctl list runtimes
+      - name: Validate iOS configuration and committed offline interface
+        script: |
+          set -euo pipefail
+          python3 ios/scripts/test-iphone-config.py
+          cp ios/Validation/iphone-validation.js ios/AbissaMobile/Web/iphone-validation.js
       - name: Verify embedded interface and iOS resource handler
         script: |
+          set -euo pipefail
           python3 ios/scripts/validate_web_bundle.py
           python3 qa-tools/test-ios-resource-handler-20261011.py
       - name: Validate property lists
@@ -70,13 +80,12 @@ workflows:
         script: |
           set -o pipefail
           xcodebuild -project ios/AbissaMobile.xcodeproj -scheme AbissaMobile -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build | tee ios/build-validation.log
-      - name: Start small iPhone, recent iPhone and iPad
-        script: python3 qa-tools/test-ios-simulator-212.py
+      - name: Install, launch, navigate, check HTTPS and restart two iPhones
+        script: python3 ios/scripts/validate-iphone.py
     artifacts:
-      - qa-tools/audit-20261012/portable-tests.json
       - ios/build-validation.log
       - ios/build/Build/Products/Debug-iphonesimulator/*.app
-      - ios/simulator-qa-212/**
+      - ios/iphone-validation/**
       - qa-tools/test-ios-resource-handler-20261011-results.json
   ios-212-archive:
     name: ABISSA 2.1.2 - signed archive (manual upload)
@@ -85,17 +94,20 @@ workflows:
     integrations:
       app_store_connect: Abissa-Mobile-Apple
     environment:
-      xcode: "26.6"
+      xcode: "27.0"
       ios_signing:
         distribution_type: app_store
         bundle_identifier: ci.abissa
     scripts:
-      - name: Bundle public interface
-        script: python3 qa-tools/bundle-mobile.py
-      - name: Fast regression gate
-        script: python3 qa-tools/check-project.py
+      - name: Verify iOS branch and configuration
+        script: |
+          set -euo pipefail
+          test "${CM_BRANCH:-}" = "fix/ios-demarrage"
+          python3 ios/scripts/test-iphone-config.py
+          test ! -e ios/AbissaMobile/Web/iphone-validation.js
       - name: Verify embedded interface and iOS resource handler
         script: |
+          set -euo pipefail
           python3 ios/scripts/validate_web_bundle.py
           python3 qa-tools/test-ios-resource-handler-20261011.py
       - name: Apply existing signing profiles
@@ -108,7 +120,6 @@ workflows:
       - name: Verify IPA identity and build before upload
         script: python3 ios/scripts/verify-app-store-ipa.py
     artifacts:
-      - qa-tools/audit-20261012/portable-tests.json
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - ~/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM

@@ -24,6 +24,8 @@ manual-build*/
 **/data/
 **/uploads/
 ios/simulator-qa-212/
+ios/iphone-validation/
+ios/AbissaMobile/Web/iphone-validation.js
 ios/ci-build-metadata.json
 qa-tools/apple-connect-deps/
 qa-tools/apple-connect-baseline/
