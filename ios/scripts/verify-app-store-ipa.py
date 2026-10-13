@@ -1,6 +1,7 @@
 """Check the produced IPA before Codemagic publishing; this does not claim Apple acceptance."""
 from pathlib import Path
 import json,plistlib,re,subprocess,sys,tempfile,zipfile
+from datetime import datetime, timezone
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from validate_web_bundle import validate_web_bundle
 
@@ -25,10 +26,15 @@ def verify_identity(info,entitlements,profile,metadata):
         raise ValueError('Signed IPA is missing the expected Associated Domains entitlement.')
     if entitlements.get('get-task-allow') is True:raise ValueError('IPA is signed for debugging rather than distribution.')
     authorized=profile.get('Entitlements',{})
+    expires=profile.get('ExpirationDate')
+    if not isinstance(expires,datetime) or expires.replace(tzinfo=timezone.utc)<=datetime.now(timezone.utc):
+        raise ValueError('Embedded distribution profile has expired or has no valid expiration date.')
     if profile.get('TeamIdentifier')!=[metadata['teamId']] or authorized.get('application-identifier')!=expected:
         raise ValueError('Embedded distribution profile has the wrong team or application identity.')
     if profile.get('ProvisionedDevices') or profile.get('ProvisionsAllDevices') or authorized.get('get-task-allow') is True:
         raise ValueError('Embedded profile is not an App Store distribution profile.')
+    if authorized.get('aps-environment')!='production' or 'applinks:abissamobile.com' not in authorized.get('com.apple.developer.associated-domains',[]):
+        raise ValueError('Distribution profile does not authorize production Push and Associated Domains.')
 
 def checked(*args):
     result=subprocess.run(args,capture_output=True,timeout=120)
