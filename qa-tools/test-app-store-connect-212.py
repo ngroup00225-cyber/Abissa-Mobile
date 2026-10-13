@@ -237,6 +237,24 @@ class AppleResponseChecks(unittest.TestCase):
             self.assertFalse(result['uploadConfirmed']);self.assertEqual(result['marketingVersion'],'2.1.2')
 
 class IPAIdentityChecks(unittest.TestCase):
+    def test_profile_domain_allowlist_accepts_apple_wildcard_but_requires_signed_domain(self):
+        metadata={'teamId':'XY97926U94','bundleIdentifier':'ci.abissa','marketingVersion':'2.1.2','buildNumber':'30'}
+        info={'CFBundleIdentifier':'ci.abissa','CFBundleShortVersionString':'2.1.2','CFBundleVersion':'30'}
+        ent={'application-identifier':'XY97926U94.ci.abissa','com.apple.developer.team-identifier':'XY97926U94','aps-environment':'production','com.apple.developer.associated-domains':['applinks:abissamobile.com'],'get-task-allow':False}
+        profile={'TeamIdentifier':['XY97926U94'],'ExpirationDate':datetime.now(timezone.utc)+timedelta(days=30),'Entitlements':dict(ent)}
+        for domains in ('*',['*'],['applinks:abissamobile.com'],'applinks:abissamobile.com'):
+            allowed={**profile,'Entitlements':{**ent,'com.apple.developer.associated-domains':domains}}
+            with self.subTest(domains=domains):
+                verify.verify_identity(info,ent,allowed,metadata)
+                for signed_domains in ([],['*'],['applinks:other.example']):
+                    with self.assertRaises(ValueError):
+                        verify.verify_identity(info,{**ent,'com.apple.developer.associated-domains':signed_domains},allowed,metadata)
+                with self.assertRaises(ValueError):
+                    verify.verify_identity(info,ent,{**allowed,'Entitlements':{**allowed['Entitlements'],'aps-environment':'development'}},metadata)
+        for domains in (None,False,17,{},['applinks:other.example'],'prefix*','',[]):
+            with self.subTest(domains=domains),self.assertRaises(ValueError):
+                verify.verify_identity(info,ent,{**profile,'Entitlements':{**ent,'com.apple.developer.associated-domains':domains}},metadata)
+
     def test_rejects_wrong_build_signing_or_missing_capabilities(self):
         metadata={'teamId':'XY97926U94','bundleIdentifier':'ci.abissa','marketingVersion':'2.1.2','buildNumber':'81'}
         info={'CFBundleIdentifier':'ci.abissa','CFBundleShortVersionString':'2.1.2','CFBundleVersion':'81'}
