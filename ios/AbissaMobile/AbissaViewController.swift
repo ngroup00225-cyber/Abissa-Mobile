@@ -43,6 +43,16 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
         if(navigator.geolocation)navigator.geolocation.getCurrentPosition=function(ok,error){var id=String(Date.now())+Math.random();window.__abissaLocationCallbacks[id]={ok:ok,error:error};window.webkit.messageHandlers.abissa.postMessage({action:'location',id:id});};
         """
         config.userContentController.addUserScript(WKUserScript(source: bridge, injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        #if DEBUG && targetEnvironment(simulator)
+        if ProcessInfo.processInfo.arguments.contains("--abissa-iphone-validation") {
+            let diagnostics = """
+            window.__abissaValidationErrors = [];
+            addEventListener('error', e => { if(e instanceof ErrorEvent) window.__abissaValidationErrors.push({kind:'script',line:e.lineno}); });
+            addEventListener('unhandledrejection', () => window.__abissaValidationErrors.push({kind:'promise'}));
+            """
+            config.userContentController.addUserScript(WKUserScript(source: diagnostics, injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
+        #endif
         webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
         webView.uiDelegate = self
@@ -77,6 +87,18 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
             self.nativeCompanion.ready()
             if let url = self.pendingURL { self.pendingURL = nil; self.openContent(url) }
             if let pair = self.pendingToken { self.pendingToken = nil; self.deliverDeviceToken(pair.0, environment: pair.1) }
+            #if DEBUG && targetEnvironment(simulator)
+            if ProcessInfo.processInfo.arguments.contains("--abissa-iphone-validation") {
+                guard let url = Bundle.main.url(forResource: "iphone-validation", withExtension: "js", subdirectory: "Web"),
+                      let script = try? String(contentsOf: url, encoding: .utf8) else {
+                    self.showStartupFailure(URLError(.fileDoesNotExist), stage: "validation-harness")
+                    return
+                }
+                self.webView.evaluateJavaScript(script) { _, error in
+                    if let error = error { self.showStartupFailure(error, stage: "validation-script") }
+                }
+            }
+            #endif
         }
     }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
@@ -129,7 +151,16 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
     func openContent(_ url: URL) {
         guard (url.scheme == "https" && url.host == "abissamobile.com" && url.path.hasPrefix("/appli/")) || url.scheme == "abissa" else { return }
         guard ready else { pendingURL = url; return }
-        let literal = Self.jsonLiteral(url.absoluteString)
+        // The shared interface accepts only the official HTTPS content origin.
+        var contentURL = url
+        if url.scheme == "abissa" {
+            var canonical = URLComponents(string: "https://abissamobile.com/appli/mobile.html")!
+            canonical.queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+            canonical.fragment = url.fragment
+            guard let resolved = canonical.url else { return }
+            contentURL = resolved
+        }
+        let literal = Self.jsonLiteral(contentURL.absoluteString)
         webView.evaluateJavaScript("window.dispatchEvent(new CustomEvent('abissa-deeplink',{detail:\(literal)}));")
     }
     func deliverDeviceToken(_ token: String, environment: String) {
@@ -147,6 +178,18 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard message.frameInfo.isMainFrame, message.frameInfo.request.url?.scheme == "abissa-resource", let b = message.body as? [String: Any], let action = b["action"] as? String else { return }
         switch action {
+        #if DEBUG && targetEnvironment(simulator)
+        case "iphoneValidation":
+            guard ProcessInfo.processInfo.arguments.contains("--abissa-iphone-validation"),
+                  let result = b["result"] as? [String: Any],
+                  JSONSerialization.isValidJSONObject(result),
+                  let data = try? JSONSerialization.data(withJSONObject: result, options: [.sortedKeys]),
+                  data.count < 65536 else { return }
+            let file = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+                .appendingPathComponent("abissa-iphone-validation.json")
+            do { try data.write(to: file, options: .atomic) }
+            catch { showStartupFailure(error, stage: "validation-report") }
+        #endif
         case "copy":
             if let value = b["url"] as? String, let url = URL(string: value), url.scheme == "https", url.host == "abissamobile.com" { UIPasteboard.general.url = url; showMessage("Lien copié.") }
         case "location":
