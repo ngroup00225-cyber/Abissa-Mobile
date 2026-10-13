@@ -33,7 +33,12 @@ def verify_identity(info,entitlements,profile,metadata):
         raise ValueError('Embedded distribution profile has the wrong team or application identity.')
     if profile.get('ProvisionedDevices') or profile.get('ProvisionsAllDevices') or authorized.get('get-task-allow') is True:
         raise ValueError('Embedded profile is not an App Store distribution profile.')
-    if authorized.get('aps-environment')!='production' or 'applinks:abissamobile.com' not in authorized.get('com.apple.developer.associated-domains',[]):
+    # Apple's profile is an allowlist and may authorize this entitlement with '*'.
+    # The signed app above must still claim the exact ABISSA domain.
+    domains=authorized.get('com.apple.developer.associated-domains',[])
+    if isinstance(domains,str):domains=[domains]
+    domain_authorized=isinstance(domains,list) and any(value in ('*','applinks:abissamobile.com') for value in domains)
+    if authorized.get('aps-environment')!='production' or not domain_authorized:
         raise ValueError('Distribution profile does not authorize production Push and Associated Domains.')
 
 def checked(*args):
