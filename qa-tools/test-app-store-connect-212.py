@@ -3,10 +3,11 @@ from pathlib import Path
 import hashlib,importlib.util,json,plistlib,re,sys,tempfile,unittest,urllib.request
 from unittest.mock import patch,Mock,MagicMock
 from urllib.error import HTTPError,URLError
+from datetime import datetime,timedelta,timezone
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'qa-tools/apple-connect-deps'))
-import yaml,jsonschema
+import yaml
 
 def load(name,path):
     spec=importlib.util.spec_from_file_location(name,ROOT/path);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
@@ -24,20 +25,30 @@ def official_schema():
 
 class ConfigurationChecks(unittest.TestCase):
     def test_yaml_schema_and_preserved_validation(self):
+        import jsonschema
         new=yaml.safe_load((ROOT/'codemagic.yaml').read_text(encoding='utf-8'))
         jsonschema.validate(new,official_schema())
         validation=new['workflows']['ios-212-validation']
         commands='\n'.join(step['script'] for step in validation['scripts'])
-        for command in ['validate_web_bundle.py','test-ios-resource-handler-20261011.py','xcodebuild','test-ios-simulator-212.py']:
+        for command in ['validate_web_bundle.py','test-ios-resource-handler-20261011.py','xcodebuild','validate-iphone.py']:
             self.assertIn(command,commands)
+        self.assertEqual(validation['name'],'ABISSA - iOS iPhone validation')
+        self.assertEqual(validation['instance_type'],'mac_mini_m2')
+        self.assertNotIn('bundle-mobile.py',commands)
+        self.assertNotIn('gradlew',commands)
         archive=new['workflows']['ios-212-archive']
         self.assertEqual(archive['integrations']['app_store_connect'],'Abissa-Mobile-Apple')
-        self.assertEqual(archive['environment'],{'xcode':'26.6','ios_signing':{'distribution_type':'app_store','bundle_identifier':'ci.abissa'}})
+        self.assertEqual(archive['environment'],{'xcode':'27.0','ios_signing':{'distribution_type':'app_store','bundle_identifier':'ci.abissa'}})
         self.assertNotIn('publishing',archive)
-        for script in ['python3 qa-tools/bundle-mobile.py','xcode-project use-profiles','xcode-project build-ipa --project ios/AbissaMobile.xcodeproj --scheme AbissaMobile\n']:
+        for script in ['xcode-project use-profiles','xcode-project build-ipa --project ios/AbissaMobile.xcodeproj --scheme AbissaMobile\n']:
             self.assertIn(script,[s['script'] for s in archive['scripts']])
         self.assertTrue(set(['build/ios/ipa/*.ipa','/tmp/xcodebuild_logs/*.log','~/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM']).issubset(archive['artifacts']))
         self.assertNotIn('triggering',archive)
+        upload=new['workflows']['ios-212-testflight']
+        self.assertEqual(upload['scripts'],archive['scripts'])
+        self.assertEqual(upload['environment'],archive['environment'])
+        self.assertEqual(upload['publishing']['app_store_connect'],{'auth':'integration','submit_to_testflight':False,'submit_to_app_store':False})
+        self.assertNotIn('triggering',upload)
 
     def test_versions_entitlements_and_android_unchanged(self):
         text=(ROOT/'ios/Config/Shared.xcconfig').read_text(encoding='utf-8')
@@ -230,13 +241,17 @@ class IPAIdentityChecks(unittest.TestCase):
         metadata={'teamId':'XY97926U94','bundleIdentifier':'ci.abissa','marketingVersion':'2.1.2','buildNumber':'81'}
         info={'CFBundleIdentifier':'ci.abissa','CFBundleShortVersionString':'2.1.2','CFBundleVersion':'81'}
         ent={'application-identifier':'XY97926U94.ci.abissa','com.apple.developer.team-identifier':'XY97926U94','aps-environment':'production','com.apple.developer.associated-domains':['applinks:abissamobile.com'],'get-task-allow':False}
-        profile={'TeamIdentifier':['XY97926U94'],'Entitlements':{'application-identifier':'XY97926U94.ci.abissa','get-task-allow':False}}
+        profile={'TeamIdentifier':['XY97926U94'],'ExpirationDate':datetime.now(timezone.utc)+timedelta(days=30),'Entitlements':dict(ent)}
         verify.verify_identity(info,ent,profile,metadata)
         for changed in [{'CFBundleVersion':'24'},{'CFBundleIdentifier':'ci.other'},{'CFBundleShortVersionString':'1.0'}]:
             with self.assertRaises(ValueError):verify.verify_identity({**info,**changed},ent,profile,metadata)
         for changed in [{'aps-environment':'development'},{'com.apple.developer.associated-domains':[]},{'get-task-allow':True},{'application-identifier':'OTHER.ci.abissa'}]:
             with self.assertRaises(ValueError):verify.verify_identity(info,{**ent,**changed},profile,metadata)
         with self.assertRaises(ValueError):verify.verify_identity(info,ent,{**profile,'ProvisionedDevices':['test']},metadata)
+        for changed in [{'ExpirationDate':datetime.now(timezone.utc)-timedelta(days=1)},
+                        {'ExpirationDate':None},{'Entitlements':{**ent,'aps-environment':'development'}},
+                        {'Entitlements':{**ent,'com.apple.developer.associated-domains':[]}}]:
+            with self.assertRaises(ValueError):verify.verify_identity(info,ent,{**profile,**changed},metadata)
         for changed in [{'CFBundleVersion':81},{'CFBundleVersion':'81.0'},{'CFBundleVersion':None}]:
             with self.assertRaises(ValueError):verify.verify_identity({**info,**changed},ent,profile,metadata)
         for changed in [{'buildNumber':81},{'buildNumber':'0'},{'buildNumber':'81.0'},{'buildNumber':'10000'},
