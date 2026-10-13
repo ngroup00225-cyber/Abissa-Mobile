@@ -1,15 +1,16 @@
 # Manual workflows only. Build artifacts are never uploaded to a store automatically.
+# mac_mini_m2 is available on individual accounts without billing enabled.
 workflows:
   qa-quick:
     name: ABISSA - fast packaging and regression checks
-    instance_type: linux_x2
+    instance_type: mac_mini_m2
     max_build_duration: 15
     environment:
       node: 22
     cache:
       cache_paths:
         - $HOME/.npm
-        - $HOME/.cache/ms-playwright
+        - $HOME/Library/Caches/ms-playwright
     scripts:
       - name: Bundle interface
         script: python3 qa-tools/bundle-mobile.py
@@ -18,7 +19,7 @@ workflows:
       - name: Install locked test dependencies
         script: |
           npm ci --prefix qa-tools --ignore-scripts
-          cd qa-tools && npx playwright install --with-deps chromium
+          cd qa-tools && npx playwright install chromium
       - name: Offline navigation and responsive layouts
         script: CI=true node qa-tools/test-audit-20261012.cjs
     artifacts:
@@ -26,7 +27,7 @@ workflows:
       - qa-tools/audit-20261012/after/**
   android-validation:
     name: ABISSA - Android Gradle validation (no store upload)
-    instance_type: linux_x2
+    instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       java: 17
