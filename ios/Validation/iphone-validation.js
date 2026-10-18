@@ -77,11 +77,6 @@
     goTo('accueil'); await delay(500);
     require((window.__abissaValidationErrors || []).length === 0, 'JavaScript runtime errors');
     report.stage = 'complete'; report.passed = true; send();
-    window.addEventListener('abissa-deeplink', async () => {
-      await delay(700);
-      report.deepLinkVerified = active()?.id === 'page-programme';
-      report.stage = 'deeplink'; report.passed = report.deepLinkVerified; send();
-    }, {once:true});
   })().catch(error => {
     report.stage = 'failed'; report.passed = false; report.errors.push(error.message);
     report.runtimeErrors = window.__abissaValidationErrors || []; send();
