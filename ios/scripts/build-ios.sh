@@ -4,7 +4,7 @@ cd "$(dirname "$0")/.."
 if [[ "$(uname -s)" != Darwin ]]; then echo 'Un Mac avec Xcode est requis.' >&2; exit 1; fi
 ACTION="${1:-simulator}"
 if [[ "$ACTION" == clean ]]; then xcodebuild -project AbissaMobile.xcodeproj -scheme AbissaMobile clean; exit; fi
-python3 ../qa-tools/bundle-mobile.py
+python3 scripts/bundle-ios.py
 case "$ACTION" in
  simulator) xcodebuild -project AbissaMobile.xcodeproj -scheme AbissaMobile -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath build CODE_SIGNING_ALLOWED=NO build ;;
  archive) xcodebuild -project AbissaMobile.xcodeproj -scheme AbissaMobile -configuration Release -destination 'generic/platform=iOS' -archivePath build/AbissaMobile.xcarchive -allowProvisioningUpdates archive ;;

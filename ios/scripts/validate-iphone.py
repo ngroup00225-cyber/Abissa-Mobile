@@ -34,7 +34,12 @@ def select_phones(runtimes, types):
     small = next((d for d in reversed(phones) if any(n in d['name'] for n in ('SE', 'mini', '17e'))), phones[0])
     recent = max((d for d in phones if d != small),
                  key=lambda d: (tuple(map(int, re.findall(r'\d+', d['name']))), 'Max' in d['name'], 'Pro' in d['name']))
-    return runtime, [('iphone-standard', small), ('iphone-recent', recent)]
+    tablets = [d for d in types if d['name'].startswith('iPad') and
+               d.get('minRuntimeVersion', 0) <= code <= d.get('maxRuntimeVersion', 0xffffffff)]
+    if not tablets:
+        raise RuntimeError('A compatible iPad simulator is required.')
+    tablet = next((d for d in tablets if 'Air' in d['name'] and '11-inch' in d['name']), tablets[-1])
+    return runtime, [('iphone-standard', small), ('iphone-recent', recent), ('ipad', tablet)]
 
 
 def startup_log(udid, pid):
@@ -58,7 +63,13 @@ def launch(udid, validation=False):
     args = ['launch', udid, BUNDLE]
     if validation:
         args.append('--abissa-iphone-validation')
-    result = run(*args).strip()
+    environment = os.environ.copy()
+    if validation:
+        for key in ('ABISSA_REVIEW_USERNAME', 'ABISSA_REVIEW_PASSWORD'):
+            if environment.get(key):
+                environment['SIMCTL_CHILD_'+key] = environment[key]
+    result = subprocess.check_output(['xcrun', 'simctl', *args], text=True,
+                                     stderr=subprocess.STDOUT, timeout=180, env=environment).strip()
     pid = result.rsplit(':', 1)[-1].strip()
     if not pid.isdigit():
         raise RuntimeError('iOS process was not launched: '+result)
@@ -93,11 +104,13 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     summary = {'commit': os.environ.get('CM_COMMIT'), 'checks': [], 'errors': [],
                'nativeStartupVerified': False, 'nativeNavigationVerified': False,
-               'networkVerified': False, 'physicalDevicesVerified': False,
+               'networkVerified': False, 'demoLoginVerified': False, 'physicalDevicesVerified': False,
                'interactionMethod': 'DOM button clicks in actual iOS WKWebView; not physical touch/XCUITest'}
     try:
         if sys.platform != 'darwin' or not APP.is_dir():
             raise RuntimeError('Run on macOS after the unsigned iOS simulator build.')
+        if not all(os.environ.get(key) for key in ('ABISSA_REVIEW_USERNAME', 'ABISSA_REVIEW_PASSWORD')):
+            raise RuntimeError('Demo credentials are required in the authorized secret CI group.')
         sys.path.insert(0, str(ROOT/'ios/scripts'))
         from validate_web_bundle import validate_web_bundle
         if validate_web_bundle(APP/'Web') != validate_web_bundle(ROOT/'ios/AbissaMobile/Web'):
@@ -123,6 +136,8 @@ def main():
                 report = wait_report(report_file, udid, label, 'complete')
                 if set(report['pages']) != {'accueil','programme','histoire','sites','langue','profil'} or len(report['network']) != 2:
                     raise RuntimeError('Incomplete navigation/network evidence.')
+                if os.environ.get('ABISSA_REVIEW_PASSWORD') and not report.get('authentication', {}).get('verified'):
+                    raise RuntimeError('Required demo authentication was not verified.')
                 run('openurl', udid, 'abissa://open?page=programme')
                 report = wait_report(report_file, udid, label, 'deeplink', seconds=15)
                 if not report.get('deepLinkVerified'):
@@ -140,7 +155,8 @@ def main():
                     raise RuntimeError('App process did not survive its cold restart.')
                 summary['checks'].append({'device':device['name'], 'runtime':runtime['version'],
                                            'installed':True, 'renderedHome':True, 'pages':report['pages'],
-                                           'network':report['network'], 'deepLink':True, 'coldRestart':True})
+                                           'network':report['network'], 'authentication':report.get('authentication', {}),
+                                           'deepLink':True, 'coldRestart':True})
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                 summary['errors'].append({'device':device['name'], 'error':str(error)})
                 if udid:
@@ -157,13 +173,14 @@ def main():
                             run(command, udid)
                         except subprocess.SubprocessError as error:
                             summary['errors'].append({'cleanup':command, 'error':str(error)})
-        passed = not summary['errors'] and len(summary['checks']) == 2
+        passed = not summary['errors'] and len(summary['checks']) == 3
         summary.update(nativeStartupVerified=passed, nativeNavigationVerified=passed, networkVerified=passed)
+        summary['demoLoginVerified'] = passed and all(c['authentication'].get('verified') for c in summary['checks'])
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         summary['errors'].append({'setup':str(error)})
     (OUT/'results.json').write_text(json.dumps(summary, indent=2)+'\n', encoding='utf-8')
     print(json.dumps(summary, indent=2))
-    return 0 if summary['nativeStartupVerified'] else 1
+    return 0 if summary['nativeStartupVerified'] and summary['demoLoginVerified'] else 1
 
 
 if __name__ == '__main__':
