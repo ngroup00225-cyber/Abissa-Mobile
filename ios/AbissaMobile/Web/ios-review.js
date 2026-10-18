@@ -11,7 +11,7 @@
  }
  async function json(route,options={}){
   if(API_BASE!==official)throw Error('Adresse du serveur indisponible. Rouvrez l’application pour réessayer.');
-  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),30000);
   try{
    let response;
    try{response=await fetch(official+'/api/'+route,{...options,signal:controller.signal,credentials:'omit',cache:'no-store',redirect:'error'});}
