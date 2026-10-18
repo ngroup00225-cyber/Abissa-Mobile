@@ -49,16 +49,18 @@ workflows:
       - app/build/outputs/apk/debug/*.apk
       - qa-tools/audit-20261012/portable-tests.json
   ios-212-validation:
-    name: ABISSA - iOS iPhone validation
+    name: ABISSA 2.1.2 - iOS simulator validation
     instance_type: mac_mini_m2
     max_build_duration: 60
     environment:
       xcode: "27.0"
+      groups:
+        - apple_review_validation
     scripts:
       - name: Verify iOS branch and toolchain
         script: |
           set -euo pipefail
-          test "${CM_BRANCH:-}" = "fix/ios-demarrage"
+          test "${CM_BRANCH:-}" = "fix/apple-review-20261018"
           xcodebuild -version
           xcrun swift --version
           python3 --version
@@ -66,6 +68,7 @@ workflows:
       - name: Validate iOS configuration and committed offline interface
         script: |
           set -euo pipefail
+          python3 ios/scripts/bundle-ios.py
           python3 ios/scripts/test-iphone-config.py
           cp ios/Validation/iphone-validation.js ios/AbissaMobile/Web/iphone-validation.js
       - name: Verify embedded interface and iOS resource handler
@@ -80,12 +83,13 @@ workflows:
         script: |
           set -o pipefail
           xcodebuild -project ios/AbissaMobile.xcodeproj -scheme AbissaMobile -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath ios/build CODE_SIGNING_ALLOWED=NO build | tee ios/build-validation.log
-      - name: Install, launch, navigate, check HTTPS and restart two iPhones
+      - name: Install, navigate, check HTTPS, optional demo login and restart two iPhones and an iPad
         script: python3 ios/scripts/validate-iphone.py
     artifacts:
       - ios/build-validation.log
       - ios/build/Build/Products/Debug-iphonesimulator/*.app
       - ios/iphone-validation/**
+      - ios/simulator-qa-212/**
       - qa-tools/test-ios-resource-handler-20261011-results.json
   ios-212-archive: &ios_signed_archive
     name: ABISSA 2.1.2 - signed archive (manual upload)
@@ -102,7 +106,8 @@ workflows:
       - name: Verify iOS branch and configuration
         script: |
           set -euo pipefail
-          test "${CM_BRANCH:-}" = "fix/ios-demarrage"
+          test "${CM_BRANCH:-}" = "fix/apple-review-20261018"
+          python3 ios/scripts/bundle-ios.py
           python3 ios/scripts/test-iphone-config.py
           test ! -e ios/AbissaMobile/Web/iphone-validation.js
       - name: Verify embedded interface and iOS resource handler
