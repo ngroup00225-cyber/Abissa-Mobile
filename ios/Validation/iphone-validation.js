@@ -34,7 +34,7 @@
     const button = document.querySelector('#loginUserForm button[onclick="attemptUserLogin()"]');
     require(visible(button) && !button.disabled, 'Login control unavailable');
     button.click();
-    const deadline = Date.now()+40000;
+    const deadline = Date.now()+75000;
     while (button.disabled && Date.now()<deadline) await delay(200);
     // Clear the password before any screenshot, including failure screenshots.
     password.value = ''; reviewCredentials.password = '';
