@@ -105,6 +105,8 @@ def main():
     summary = {'commit': os.environ.get('CM_COMMIT'), 'checks': [], 'errors': [],
                'nativeStartupVerified': False, 'nativeNavigationVerified': False,
                'networkVerified': False, 'demoLoginVerified': False, 'physicalDevicesVerified': False,
+               'systemDeepLinkVerified': False,
+               'systemDeepLinkLimitation': 'simctl openurl requires an iOS Open confirmation; this DOM-based runner cannot approve system UI. Not exercised.',
                'interactionMethod': 'DOM button clicks in actual iOS WKWebView; not physical touch/XCUITest'}
     try:
         if sys.platform != 'darwin' or not APP.is_dir():
@@ -138,11 +140,10 @@ def main():
                     raise RuntimeError('Incomplete navigation/network evidence.')
                 if os.environ.get('ABISSA_REVIEW_PASSWORD') and not report.get('authentication', {}).get('verified'):
                     raise RuntimeError('Required demo authentication was not verified.')
-                run('openurl', udid, 'abissa://open?page=programme')
-                report = wait_report(report_file, udid, label, 'deeplink', seconds=15)
-                if not report.get('deepLinkVerified'):
-                    raise RuntimeError('Native custom-scheme deep link did not open Programme.')
-                run('io', udid, 'screenshot', str(OUT/(label+'-deeplink.png')))
+                # simctl openurl displays a system Open confirmation on clean iOS 27
+                # simulators. This runner operates the app DOM, not system dialogs.
+                # Keep that coverage explicitly unverified; do not leave a modal
+                # blocking the independent cold-restart and authentication checks.
                 require_ready(udid, pid, label+'-final')
                 run('terminate', udid, BUNDLE)
                 restarted = launch(udid)
@@ -156,7 +157,7 @@ def main():
                 summary['checks'].append({'device':device['name'], 'runtime':runtime['version'],
                                            'installed':True, 'renderedHome':True, 'pages':report['pages'],
                                            'network':report['network'], 'authentication':report.get('authentication', {}),
-                                           'deepLink':True, 'coldRestart':True})
+                                           'deepLink':False, 'coldRestart':True})
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                 summary['errors'].append({'device':device['name'], 'error':str(error)})
                 if udid:
