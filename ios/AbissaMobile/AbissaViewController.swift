@@ -94,8 +94,15 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
                     self.showStartupFailure(URLError(.fileDoesNotExist), stage: "validation-harness")
                     return
                 }
-                self.webView.evaluateJavaScript(script) { _, error in
-                    if let error = error { self.showStartupFailure(error, stage: "validation-script") }
+                // CI secrets exist only at runtime in this opt-in simulator path.
+                // They are never interpolated into source, logs or app artifacts.
+                let environment = ProcessInfo.processInfo.environment
+                let credentials = ["username": environment["ABISSA_REVIEW_USERNAME"] ?? "",
+                                   "password": environment["ABISSA_REVIEW_PASSWORD"] ?? ""]
+                self.webView.callAsyncJavaScript(script, arguments: ["reviewCredentials": credentials], in: nil, in: .page) { result in
+                    if case .failure = result {
+                        self.showStartupFailure(URLError(.cannotParseResponse), stage: "validation-script")
+                    }
                 }
             }
             #endif
@@ -255,7 +262,13 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         guard let url = navigationAction.request.url else { decisionHandler(.cancel); return }
         if navigationAction.shouldPerformDownload { decisionHandler(.download); return }
-        if navigationAction.targetFrame?.isMainFrame == false { decisionHandler(.allow); return }
+        if navigationAction.targetFrame?.isMainFrame == false {
+            let bundled = url.scheme == "abissa-resource" && url.host == "app"
+            let official = url.scheme == "https" && url.host == "abissamobile.com"
+            let map = url.scheme == "https" && url.host == "www.openstreetmap.org" && url.path == "/export/embed.html"
+            decisionHandler(bundled || official || map || url.absoluteString == "about:blank" ? .allow : .cancel)
+            return
+        }
         if url.scheme == "abissa-resource" { decisionHandler(.allow); return }
         if url.scheme == "https" { decisionHandler(.cancel); present(SFSafariViewController(url: url), animated: true); return }
         if ["tel", "mailto", "abissa", "whatsapp"].contains(url.scheme ?? "") { decisionHandler(.cancel); if url.scheme == "abissa" { openContent(url) } else { UIApplication.shared.open(url) { success in if !success { DispatchQueue.main.async { self.showMessage("Aucune application disponible pour ce lien. Utilisez les coordonnées affichées.") } } } }; return }
@@ -285,4 +298,3 @@ final class AbissaViewController: UIViewController, WKNavigationDelegate, WKUIDe
         vc.addAction(UIAlertAction(title: "Confirmer", style: .default) { _ in completionHandler(true) }); present(vc, animated: true)
     }
 }
-
